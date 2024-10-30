@@ -10,3 +10,8 @@
 4. Nieuczciwych użytkownicy, których opis pliku nie zgadza się z zawartością będą banowani.
 5. Możliwość pobrania zakupionych plików.
 6. Płatnościami nie zamierzamy się zajmować, ponieważ istnieją już do tego gotowe, sprawdzone systemy (na potrzeby prezentacji płatności będą mockowane).
+
+## Wymagania:
+1. Baza danych na przechowywanie plików oraz użytkowników.
+2. Backend w java spring boot.
+3. Frontend w react.
