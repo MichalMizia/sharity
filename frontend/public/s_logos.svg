@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   id="svg2"
+   width="100"
+   height="100"
+   viewBox="300 70 145 145"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6">
+    <linearGradient
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,157.33394,157.33394,0,345.03967,58.2043)"
+       spreadMethod="pad"
+       id="linearGradient364">
+      <stop
+         style="stop-opacity:1;stop-color:#0073c0"
+         offset="0"
+         id="stop360" />
+      <stop
+         style="stop-opacity:1;stop-color:#0098fa"
+         offset="1"
+         id="stop362" />
+    </linearGradient>
+    <linearGradient
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,-142.23857,-142.23857,0,403.31934,200.77005)"
+       spreadMethod="pad"
+       id="linearGradient384">
+      <stop
+         style="stop-opacity:1;stop-color:#c72834"
+         offset="0"
+         id="stop380" />
+      <stop
+         style="stop-opacity:1;stop-color:#ff4557"
+         offset="1"
+         id="stop382" />
+    </linearGradient>
+  </defs>
+  <g
+     id="g8"
+>
+    <g
+       id="g348">
+      <g
+         id="g350">
+        <g
+           id="g356">
+          <g
+             id="g358">
+            <path
+               d="m 300.898,141.949 c 0,-28.7 17.092,-53.394 41.643,-64.503 v 0 l 34.337,34.337 c 3.162,3.163 2.179,6.706 1.607,8.083 v 0 c -0.571,1.377 -2.379,4.579 -6.853,4.579 v 0 c -11.704,0 -21.756,6.716 -26.235,17.529 v 0 c -4.478,10.813 -2.119,22.671 6.156,30.947 v 0 l 37.629,37.628 c -5.597,1.424 -11.46,2.185 -17.5,2.185 v 0 c -39.093,0 -70.784,-31.691 -70.784,-70.785"
+               style="fill:url(#linearGradient364);stroke:none"
+               id="path366" />
+          </g>
+        </g>
+      </g>
+    </g>
+    <g
+       id="g368">
+      <g
+         id="g370">
+        <g
+           id="g376">
+          <g
+             id="g378">
+            <path
+               d="m 366.387,158.087 c -3.164,-3.164 -2.179,-6.707 -1.609,-8.086 v 0 c 0.571,-1.376 2.381,-4.577 6.854,-4.577 v 0 c 11.703,0 21.756,-6.717 26.234,-17.529 v 0 c 4.478,-10.813 2.121,-22.671 -6.155,-30.946 v 0 L 366.162,71.4 c 1.824,-0.142 3.661,-0.235 5.52,-0.235 v 0 c 39.093,0 70.784,31.692 70.784,70.784 v 0 c 0,25.033 -13.007,47.015 -32.618,59.6 v 0 z"
+               style="fill:url(#linearGradient384);stroke:none"
+               id="path386" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
