@@ -13,34 +13,31 @@ const ProfilePage = ({}: ProfilePageProps) => {
     return <Navigate to="/login" />;
   }
 
+  console.log(user);
+
   return (
     <div className="flex h-full w-full flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden px-4 pb-6 pt-0 xs:pt-6 lg:px-8">
       <div className="relative flex flex-wrap items-center justify-between">
         <div className="z-[2] flex flex-col items-start gap-2 pt-8 xs:flex-row xs:items-center xs:pt-0">
-          <AvatarImageForm
-            // imgSrc={user.avatar}
-            id={user.id}
-            username={user.username}
-          />
           <div className="">
             <h2 className="text-h4 font-semibold text-gray-800">
-              Cześć, {user?.username.split(" ")[0]}
+              Hello, {user?.username.split(" ")[0]}
             </h2>
             <p className="max-w-md text-sm text-text_readable sm:text-h6">
-              Uzupełniaj swój profil i przyciągaj klientów
+              Fill out your data and add documents to get clients.
             </p>
           </div>
         </div>
-        <Link to={`/profile/add-product`} title="Zobacz swój Profil">
+        <Link to={`/sellers`} title="View your profile">
           <Button
             variant="outlined"
             size="large"
             className="hidden text-gray-700 md:flex"
           >
-            Zobacz swój Profil
+            View your profile
           </Button>
           <p className="mt-1 translate-y-1 text-sm text-blue-500 underline hover:opacity-80 md:hidden">
-            Zobacz swój Profil
+            View your profile
           </p>
         </Link>
       </div>
@@ -56,6 +53,14 @@ const ProfilePage = ({}: ProfilePageProps) => {
         </div>
         {/* <ImageUpdateForm imgSrc={user.image} id={user._id} /> */}
       </div>
+
+      <AvatarImageForm
+        // imgSrc={user.avatar}
+        id={user.id}
+        username={user.username}
+        imgSrc={user.imageSrc}
+      />
+
       {/* <DescriptionUpdateForm id={user._id} summary={user.summary} /> */}
       {/* <Separator className="my-4 bg-gray-300" /> */}
 

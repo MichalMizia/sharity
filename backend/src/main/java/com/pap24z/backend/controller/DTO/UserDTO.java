@@ -5,12 +5,14 @@ public class UserDTO {
     private String username;
     private String email;
     private String role;
+    private String imageSrc;
 
-    public UserDTO(Long id, String username, String email, String role) {
+    public UserDTO(Long id, String username, String email, String role, String imageSrc) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.role = role;
+        this.imageSrc = imageSrc;
     }
 
     // Getters and Setters
@@ -44,5 +46,13 @@ public class UserDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 }

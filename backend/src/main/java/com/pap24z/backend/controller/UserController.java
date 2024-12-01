@@ -2,9 +2,15 @@ package com.pap24z.backend.controller;
 
 import com.pap24z.backend.model.User;
 import com.pap24z.backend.service.UserService;
+import com.pap24z.backend.service.storage.StorageService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,6 +20,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StorageService storageService;
+
+    @Value("${img.base-url}")
+    private String baseUrl;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -57,6 +69,29 @@ public class UserController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    // update profile image
+    @PostMapping("/{id}/profile-image")
+    public ResponseEntity<User> updateUserProfileImage(HttpServletRequest request, @PathVariable Long id,
+            @RequestParam("image") MultipartFile image) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getId().equals(id)) {
+            try {
+                String filename = storageService.storeFile(image);
+                user.setImageSrc(baseUrl + filename);
+                User updatedUser = userService.saveUser(user);
+
+                // update image in session
+                request.getSession().setAttribute("user", updatedUser);
+                return ResponseEntity.ok(updatedUser);
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body(null);
+            }
+        } else {
+            return ResponseEntity.status(403).body(null);
         }
     }
 }

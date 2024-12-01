@@ -36,3 +36,14 @@ npm run dev
 npm run build
 npm start
 ```
+
+## Testowanie
+
+W przeglądarce wejść na [htpp://localhost:5173](http://localhost:5173/)
+
+Przykładowy użytkownik:
+
+```yml
+login: mmizia05@gmail.com
+haslo: sheesh123
+```

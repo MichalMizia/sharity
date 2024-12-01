@@ -13,7 +13,9 @@ public class HomeController {
     @GetMapping("")
     public ResponseEntity<Map<String, String>> getHome() {
         Map<String, String> response = new HashMap<>();
-        response.put("Hello", "siema");
+        response.put("App", "SPRING BOOT");
+        response.put("Running", "True");
+        response.put("Name", "Pap-Backend");
         response.put("Hotel", "Trivago");
         return ResponseEntity.ok(response);
     }

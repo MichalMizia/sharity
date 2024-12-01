@@ -37,6 +37,8 @@ public class User {
 
     private String role;
 
+    private String imageSrc;
+
     public User() {
     }
 
@@ -89,6 +91,14 @@ public class User {
 
     public String getRole() {
         return this.role;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 
     public boolean verifyPassword(String password) {

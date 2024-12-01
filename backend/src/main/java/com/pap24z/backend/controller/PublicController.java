@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 @RequestMapping("/public")
 public class PublicController {
 
-    private final String uploadDir = "/public/uploads";
+    private final String uploadDir = Paths.get(System.getProperty("user.dir"), "public", "uploads").toString();
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename, HttpServletRequest request) {

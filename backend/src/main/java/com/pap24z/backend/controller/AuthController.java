@@ -69,7 +69,8 @@ public class AuthController {
         User user = (User) request.getSession().getAttribute("user");
         System.out.println("Session in session: " + user);
         if (user != null) {
-            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole());
+            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),
+                    user.getImageSrc());
             return ResponseEntity.ok(userDTO);
         } else {
             return ResponseEntity.status(401).body("No active session");
