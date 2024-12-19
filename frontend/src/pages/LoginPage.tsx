@@ -55,6 +55,7 @@ const LoginPage = ({}: LoginPageProps) => {
               </label>
               <input
                 id="username"
+                autoComplete="username"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 {...register("username", { required: true })}
               />
@@ -71,6 +72,7 @@ const LoginPage = ({}: LoginPageProps) => {
               <input
                 id="password"
                 type="password"
+                autoComplete="current-password"
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 {...register("password", { required: true })}
               />

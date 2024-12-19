@@ -6,10 +6,12 @@ public class UserDTO {
     private String email;
     private String role;
     private String imageSrc;
+    private String password;
 
-    public UserDTO(Long id, String username, String email, String role, String imageSrc) {
+    public UserDTO(Long id, String username, String email, String role, String imageSrc, String password) {
         this.id = id;
         this.username = username;
+        this.password = password;
         this.email = email;
         this.role = role;
         this.imageSrc = imageSrc;
@@ -46,6 +48,14 @@ public class UserDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getImageSrc() {

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +24,8 @@ public class PublicController {
     private final String uploadDir = Paths.get(System.getProperty("user.dir"), "public", "uploads").toString();
 
     @GetMapping("/files/{filename:.+}")
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename, HttpServletRequest request) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename,
+            @RequestParam(defaultValue = "false") boolean download, HttpServletRequest request) {
         try {
             Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
             Resource resource = new UrlResource(filePath.toUri());
@@ -35,9 +37,16 @@ public class PublicController {
                     contentType = "application/octet-stream";
                 }
 
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.parseMediaType(contentType));
+                if (download) {
+                    headers.setContentDispositionFormData("attachment", resource.getFilename());
+                } else {
+                    headers.setContentDispositionFormData("inline", resource.getFilename());
+                }
+
                 return ResponseEntity.ok()
-                        .contentType(MediaType.parseMediaType(contentType))
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                        .headers(headers)
                         .body(resource);
             } else {
                 return ResponseEntity.notFound().build();

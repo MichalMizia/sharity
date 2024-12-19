@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import Logout from "./Logout";
 import { Home, LogIn, User, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Logo from "/s_logos.svg";
 
 interface NavbarProps {}
 
@@ -22,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = () => {
       <nav className="custom-container mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2 justify-start">
           <img
-            src="s_logos.svg"
+            src={Logo}
             alt="Logo"
             className="w-10 h-10 rotate-180 -scale-x-100"
           />

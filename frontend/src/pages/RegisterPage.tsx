@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { register as register_user } from "@/lib/auth";
+import { toast } from "react-toastify";
 
 interface RegisterPageProps {}
 
@@ -17,13 +18,18 @@ const RegisterPage = ({}: RegisterPageProps) => {
     formState: { errors },
   } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
-    const res = await register_user({
-      email: data.email,
-      username: data.username,
-      password: data.password,
-    });
-    console.log("Response: ", res);
+    try {
+      const res = await register_user({
+        email: data.email,
+        username: data.username,
+        password: data.password,
+      });
+      console.log("Response: ", res);
+
+      toast.success("Registered successfully");
+    } catch (error) {
+      toast.error("Failed to register");
+    }
   };
 
   return (

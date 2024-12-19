@@ -21,6 +21,18 @@ docker compose up -d
 
 ## Porady podczas developmentu
 
+### Dokumentacja api http://localhost:8080/swagger-ui.html
+
+### Czyszczenie bazy danych
+
+W application.properties odkomentować linię
+
+```yaml
+spring.jpa.hibernate.ddl-auto=create-drop
+# i zakomentować
+# spring.jpa.hibernate.ddl-auto=update
+```
+
 ### Uzyskanie zalogowanego użytkownika wewnątrz
 
 ```java

@@ -27,12 +27,9 @@ public class WebSecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 return http
                                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                                                // .requestMatchers("/files/**",
-                                                // "/files")
-                                                // .hasAuthority(USER)
-                                                // .requestMatchers("/", "/error", "/csrf", "/home/**")
-                                                // .permitAll()
-                                                .requestMatchers("/public/**", "/auth/**", "/users/**").permitAll()
+                                                .requestMatchers("/public/**", "/auth/**", "/users/**",
+                                                                "/v3/api-docs/**", "/product-listings/**")
+                                                .permitAll()
                                                 .anyRequest().access(this::customAccessDecision))
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))

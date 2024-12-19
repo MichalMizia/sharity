@@ -28,17 +28,10 @@ const ProfilePage = ({}: ProfilePageProps) => {
             </p>
           </div>
         </div>
-        <Link to={`/sellers`} title="View your profile">
-          <Button
-            variant="outlined"
-            size="large"
-            className="hidden text-gray-700 md:flex"
-          >
-            View your profile
+        <Link to={`/profile/add-product`} title="View your profile">
+          <Button variant="outlined" size="large" className="text-gray-700">
+            Add a product
           </Button>
-          <p className="mt-1 translate-y-1 text-sm text-blue-500 underline hover:opacity-80 md:hidden">
-            View your profile
-          </p>
         </Link>
       </div>
       <Separator className="my-4 bg-gray-300" />

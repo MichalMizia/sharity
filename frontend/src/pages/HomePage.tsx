@@ -1,4 +1,5 @@
 import CategorySection from "@/components/CategorySection";
+import LatestProductsSection from "@/components/LatestProductsSection";
 // import AvatarImageForm from "@/components/forms/AvatarImageForm";
 import { MoveRight } from "lucide-react";
 
@@ -70,6 +71,8 @@ const HomePage = () => {
       </section>
 
       <CategorySection />
+
+      <LatestProductsSection />
     </>
   );
 };

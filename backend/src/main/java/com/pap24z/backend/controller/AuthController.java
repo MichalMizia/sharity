@@ -29,7 +29,11 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
         user.setRole("USER");
         userService.saveUser(user);
         System.out.println("Received user: " + user.getUsername() + " " + user.getEmail() + " " + user.getPassword()
@@ -70,7 +74,7 @@ public class AuthController {
         System.out.println("Session in session: " + user);
         if (user != null) {
             UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),
-                    user.getImageSrc());
+                    user.getImageSrc(), "");
             return ResponseEntity.ok(userDTO);
         } else {
             return ResponseEntity.status(401).body("No active session");

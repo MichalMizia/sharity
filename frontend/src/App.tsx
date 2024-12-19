@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import AuthenticatedRoute from "./components/AuthenticateRoute";
 import AuthRoute from "./components/AuthRoute";
 import ProfilePage from "./pages/profile/ProfilePage";
+import AddProductPage from "./pages/profile/AddProductPage";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
 
             <Route path="profile">
               <Route index element={<ProfilePage />} />
-              <Route path="add-product" element={<div>Add</div>} />
+              <Route path="add-product" element={<AddProductPage />} />
             </Route>
           </Route>
         </Route>

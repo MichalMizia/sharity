@@ -1,16 +1,12 @@
 package com.pap24z.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -21,6 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
     @NotBlank
@@ -38,6 +35,13 @@ public class User {
     private String role;
 
     private String imageSrc;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<UserFile> userFiles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductListing> productListings;
 
     public User() {
     }
@@ -101,9 +105,24 @@ public class User {
         this.imageSrc = imageSrc;
     }
 
+    public List<UserFile> getUserFiles() {
+        return userFiles;
+    }
+
+    public void setUserFiles(List<UserFile> userFiles) {
+        this.userFiles = userFiles;
+    }
+
+    public List<ProductListing> getProductListings() {
+        return productListings;
+    }
+
+    public void setProductListings(List<ProductListing> productListings) {
+        this.productListings = productListings;
+    }
+
     public boolean verifyPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(password, this.password);
     }
-
 }
