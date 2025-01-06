@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useUserFiles } from "@/lib/hooks/useUserFiles";
@@ -57,6 +57,9 @@ const AddProductListingForm: React.FC = () => {
       category,
       tags,
       userId: user?.id ? Number(user.id) : 0,
+      user: {
+        id: user?.id || "",
+      },
       userFileIds: selectedFileIds.map((id) => parseInt(id)),
     };
 

@@ -25,7 +25,6 @@ public class FileUploadController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        System.out.println("In upload controller: \n" + file.toString());
         String filePath = storageService.storeFile(file);
         return ResponseEntity.ok("File uploaded successfully: " + filePath);
     }

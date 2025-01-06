@@ -41,6 +41,7 @@ public class User {
     private List<UserFile> userFiles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ProductListing> productListings;
 
     public User() {

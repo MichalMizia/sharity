@@ -11,14 +11,14 @@ public class ProductListingDTO {
     private int priceChange;
     private String category;
     private String[] tags;
-    private Long userId;
+    private UserDTO user;
     private List<Long> userFileIds;
 
     public ProductListingDTO() {
     }
 
     public ProductListingDTO(Long id, String title, String description, int priceFull, int priceChange, String category,
-            String[] tags, Long userId, List<Long> userFileIds) {
+            String[] tags, UserDTO user, List<Long> userFileIds) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -26,7 +26,7 @@ public class ProductListingDTO {
         this.priceChange = priceChange;
         this.category = category;
         this.tags = tags;
-        this.userId = userId;
+        this.user = user;
         this.userFileIds = userFileIds;
     }
 
@@ -86,12 +86,12 @@ public class ProductListingDTO {
         this.tags = tags;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     public List<Long> getUserFileIds() {

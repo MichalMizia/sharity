@@ -6,7 +6,9 @@ import { MoveRight } from "lucide-react";
 const HomePage = () => {
   return (
     <>
-      <section className="">
+      <section className="isolate relative">
+        <div className="absolute -z-10 h-[100vh] w-[100vw] left-1/2 -translate-x-1/2 m-auto top-[-40px] bg-no-repeat bg-[radial-gradient(circle_at_top_right,#C5DECD,#FFFFFF50)]"></div>
+        <div className="absolute -z-10 h-[100vh] w-[100vw] left-1/2 -translate-x-1/2 m-auto top-[-40px] bg-no-repeat bg-[radial-gradient(circle_at_bottom_left,#CDA49750,#FFFFFF50)]"></div>
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 z-10 relative">
           <a
             href="#"
@@ -66,13 +68,12 @@ const HomePage = () => {
               </button>
             </div>
           </form>
+          <LatestProductsSection />
         </div>
         {/* <div className="bg-gradient-to-b from-blue-50 to-transparent dark:from-blue-900 w-full h-full absolute top-0 left-0 z-0"></div> */}
       </section>
 
       <CategorySection />
-
-      <LatestProductsSection />
     </>
   );
 };

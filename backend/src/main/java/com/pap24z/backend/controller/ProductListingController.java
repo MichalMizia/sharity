@@ -1,21 +1,20 @@
 package com.pap24z.backend.controller;
 
 import com.pap24z.backend.controller.DTO.ProductListingDTO;
+import com.pap24z.backend.controller.DTO.UserDTO;
 import com.pap24z.backend.model.ProductListing;
 import com.pap24z.backend.model.User;
 import com.pap24z.backend.model.UserFile;
 import com.pap24z.backend.service.ProductListingService;
 import com.pap24z.backend.service.UserFileService;
 import com.pap24z.backend.service.UserService;
-
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,9 +45,10 @@ public class ProductListingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductListing> getProductListingById(@PathVariable Long id) {
+    public ResponseEntity<ProductListingDTO> getProductListingById(@PathVariable Long id) {
         Optional<ProductListing> productListing = productListingService.getProductListingById(id);
-        return productListing.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return productListing.map(pl -> ResponseEntity.ok(convertToDTO(pl)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/user/{userId}")
@@ -72,7 +72,9 @@ public class ProductListingController {
             @RequestBody ProductListingDTO productListingDTO) {
         User user = (User) request.getSession().getAttribute("user");
         System.out.println(user);
-        if (user == null || !user.getId().equals(productListingDTO.getUserId())) {
+        System.out.println(productListingDTO.getUser());
+
+        if (user == null || !user.getId().equals(productListingDTO.getUser().getId())) {
             return ResponseEntity.status(403).build();
         }
 
@@ -85,7 +87,7 @@ public class ProductListingController {
     public ResponseEntity<ProductListingDTO> updateProductListing(HttpServletRequest request, @PathVariable Long id,
             @RequestBody ProductListingDTO productListingDTO) {
         User user = (User) request.getSession().getAttribute("user");
-        if (user == null || !user.getId().equals(productListingDTO.getUserId())) {
+        if (user == null || !user.getId().equals(productListingDTO.getUser().getId())) {
             return ResponseEntity.status(403).build();
         }
 
@@ -129,6 +131,14 @@ public class ProductListingController {
     }
 
     private ProductListingDTO convertToDTO(ProductListing productListing) {
+        UserDTO userDTO = new UserDTO(
+                productListing.getUser().getId(),
+                productListing.getUser().getUsername(),
+                productListing.getUser().getEmail(),
+                productListing.getUser().getRole(),
+                productListing.getUser().getImageSrc(),
+                "");
+
         return new ProductListingDTO(
                 productListing.getId(),
                 productListing.getTitle(),
@@ -137,14 +147,14 @@ public class ProductListingController {
                 productListing.getPriceChange(),
                 productListing.getCategory(),
                 productListing.getTags(),
-                productListing.getUser().getId(),
+                userDTO,
                 productListing.getUserFiles().stream()
                         .map(UserFile::getId)
                         .collect(Collectors.toList()));
     }
 
     private ProductListing convertToEntity(ProductListingDTO productListingDTO) {
-        User user = userService.getUserById(productListingDTO.getUserId());
+        User user = userService.getUserById(productListingDTO.getUser().getId());
         List<UserFile> userFiles = productListingDTO.getUserFileIds().stream()
                 .map(userFileService::getUserFileById)
                 .filter(Optional::isPresent)

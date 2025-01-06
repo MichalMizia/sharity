@@ -10,6 +10,9 @@ interface ProductListingDTO {
   category: string;
   tags: string[];
   userId: number;
+  user: {
+    id: string;
+  };
   userFileIds: number[];
 }
 
