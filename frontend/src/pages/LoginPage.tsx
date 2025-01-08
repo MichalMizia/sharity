@@ -3,14 +3,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 
-interface LoginPageProps {}
+interface LoginPageProps { }
 
 interface IFormInput {
   username: string;
   password: string;
 }
 
-const LoginPage = ({}: LoginPageProps) => {
+const LoginPage = ({ }: LoginPageProps) => {
   const queryClient = useQueryClient();
 
   const {
@@ -51,7 +51,7 @@ const LoginPage = ({}: LoginPageProps) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <label htmlFor="username" className="block text-gray-700">
-                Username
+                Email
               </label>
               <input
                 id="username"
