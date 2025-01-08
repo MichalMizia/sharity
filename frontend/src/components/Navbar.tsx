@@ -14,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = () => {
     cn(
       isActive
         ? "text-blue-600 bg-gray-200 shadow-lg shadow-blue-600/20 border border-black/5"
-        : "group",
+        : "group border-blue-500/10 border hover:bg-gray-200/20",
       "flex p-2 relative rounded gap-2 items-center justify-center"
     );
 

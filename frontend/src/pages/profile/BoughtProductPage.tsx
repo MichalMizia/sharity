@@ -2,11 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useProductDetails from "@/lib/hooks/useProductDetails";
 import useFileDownload from "@/lib/hooks/useFileDownload";
-import useUserTransactions from "@/lib/hooks/useUserTransactions";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { Link } from "react-router-dom";
 import { CheckCircle, Download } from "lucide-react";
 import { useAccess } from "@/lib/hooks/useAccess";
+import usePopulatedUserTransactions from "@/lib/hooks/usePopulatedUserTransactions";
 
 interface BoughtProductPageProps {}
 
@@ -19,7 +19,7 @@ const BoughtProductPage: React.FC<BoughtProductPageProps> = () => {
     data: transactions,
     error: transactionsError,
     isLoading: transactionsLoading,
-  } = useUserTransactions(user?.id || "0");
+  } = usePopulatedUserTransactions(user?.id || "0");
 
   const {
     fileIds: fileNames,
@@ -87,7 +87,7 @@ const BoughtProductPage: React.FC<BoughtProductPageProps> = () => {
                   <div>
                     <p className="text-gray-700">
                       <strong>Product:</strong>{" "}
-                      {transaction.productListingTitle}
+                      {transaction.productListing?.title}
                     </p>
                     <p className="text-gray-700">
                       <strong>Amount:</strong> ${transaction.amount}

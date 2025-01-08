@@ -31,7 +31,7 @@ public class LocalStorageService implements StorageService {
     public String storeFile(MultipartFile file) {
         try {
             if (file.getSize() > MAX_FILE_SIZE) {
-                throw new RuntimeException("File size exceeds the maximum limit of 5 MB");
+                throw new RuntimeException("File size exceeds the maximum limit of 10 MB");
             }
 
             String contentType = file.getContentType();

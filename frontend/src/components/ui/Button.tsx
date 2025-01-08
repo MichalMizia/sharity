@@ -14,7 +14,7 @@ export const buttonVariants = cva(
         primary:
           "bg-blue-500 rounded-[4px] text-white hover-circle-overlay border-blue-500 border-2 relative overflow-hidden",
         primary_outlined:
-          "bg-slate-100 rounded-[4px] border-2 text-black border-solid border-blue-500 hover:bg-slate-200 transition-colors",
+          "bg-slate-100 rounded-[4px] border-2 border-solid border-blue-500 hover:bg-slate-200 transition-colors",
         outlined:
           "bg-slate-100 border-2 border-solid border-slate-200 hover:bg-slate-200 hover:border-slate-300 transition-colors",
       },

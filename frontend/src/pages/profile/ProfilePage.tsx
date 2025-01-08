@@ -2,7 +2,7 @@ import AvatarImageForm from "@/components/forms/AvatarImageForm";
 import Button from "@/components/ui/Button";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/lib/hooks/useAuth";
-import useUserTransactions from "@/lib/hooks/useUserTransactions";
+import usePopulatedUserTransactions from "@/lib/hooks/usePopulatedUserTransactions";
 import { Link, Navigate } from "react-router-dom";
 
 interface ProfilePageProps {}
@@ -13,14 +13,14 @@ const ProfilePage = ({}: ProfilePageProps) => {
     data: transactions,
     error,
     isLoading,
-  } = useUserTransactions(user?.id || "0");
+  } = usePopulatedUserTransactions(user?.id || "0");
 
   if (!user) {
     return <Navigate to="/login" />;
   }
 
   console.log(user);
-  console.log();
+  console.log(transactions);
 
   return (
     <div className="flex h-full w-full flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden px-4 pb-6 pt-0 xs:pt-6 lg:px-8">
@@ -36,7 +36,11 @@ const ProfilePage = ({}: ProfilePageProps) => {
           </div>
         </div>
         <Link to={`/profile/add-product`} title="View your profile">
-          <Button variant="outlined" size="large" className="text-gray-700">
+          <Button
+            variant="primary_outlined"
+            size="large"
+            className="text-gray-700"
+          >
             Add a product
           </Button>
         </Link>
@@ -55,7 +59,7 @@ const ProfilePage = ({}: ProfilePageProps) => {
       </div>
 
       <div className="flex flex-col md:flex-row items-start justify-center">
-        <div className="border-r border-gray-300 flex-1">
+        <div className="flex-1">
           <h3 className="text-xl font-semibold mb-4">Products you bought:</h3>
           {isLoading ? (
             <p>Loading...</p>
@@ -72,13 +76,10 @@ const ProfilePage = ({}: ProfilePageProps) => {
                     <div>
                       <p className="text-gray-700">
                         <strong>Product:</strong>{" "}
-                        {transaction.productListingTitle}
+                        {transaction.productListing?.title}
                       </p>
                       <p className="text-gray-700">
                         <strong>Amount:</strong> ${transaction.amount}
-                      </p>
-                      <p className="text-gray-700">
-                        <strong>Status:</strong> {transaction.status}
                       </p>
                       <p className="text-gray-700">
                         <strong>Date:</strong>{" "}

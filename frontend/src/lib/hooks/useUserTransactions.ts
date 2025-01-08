@@ -8,7 +8,6 @@ interface TransactionDTO {
   amount: number;
   status: string;
   productListingId: number;
-  productListingTitle: string;
 }
 
 const fetchUserTransactions = async (

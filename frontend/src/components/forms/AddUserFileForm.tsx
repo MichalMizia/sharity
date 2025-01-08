@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useUserFiles } from "@/lib/hooks/useUserFiles";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Download } from "lucide-react";
 import useFileDownload from "@/lib/hooks/useFileDownload";
 import { useQueryClient } from "@tanstack/react-query";
@@ -78,7 +77,7 @@ const AddUserFileForm: React.FC = () => {
         </button>
       </form>
       <h3 className="text-xl font-semibold mt-6 mb-4">Your Files</h3>
-      <ScrollArea className="h-32">
+      <div className="overflow-y-auto h-60">
         {error ? (
           <p className="text-red-500">There is nothing here.</p>
         ) : isLoading ? (
@@ -103,8 +102,7 @@ const AddUserFileForm: React.FC = () => {
               ))}
           </ul>
         )}
-        <ScrollBar />
-      </ScrollArea>
+      </div>
     </div>
   );
 };
