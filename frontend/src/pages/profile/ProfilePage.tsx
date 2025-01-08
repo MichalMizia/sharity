@@ -5,9 +5,9 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import usePopulatedUserTransactions from "@/lib/hooks/usePopulatedUserTransactions";
 import { Link, Navigate } from "react-router-dom";
 
-interface ProfilePageProps {}
+interface ProfilePageProps { }
 
-const ProfilePage = ({}: ProfilePageProps) => {
+const ProfilePage = ({ }: ProfilePageProps) => {
   const { user } = useAuth();
   const {
     data: transactions,
@@ -108,6 +108,38 @@ const ProfilePage = ({}: ProfilePageProps) => {
             username={user.username}
             imgSrc={user.imageSrc}
           />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold mb-4">Your Description:</h3>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target as HTMLFormElement);
+              const response = await fetch(`/users/${user.id}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ description: formData.get('description') }),
+              });
+
+              if (response.ok) {
+                alert("Description updated successfully!");
+              } else {
+                alert("Failed to update description.");
+              }
+            }}
+          >
+            <textarea
+              name="description"
+              defaultValue={user.description}
+              className="w-full p-2 border rounded"
+              rows={4}
+            ></textarea>
+            <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+              Update Description
+            </button>
+          </form>
         </div>
       </div>
 

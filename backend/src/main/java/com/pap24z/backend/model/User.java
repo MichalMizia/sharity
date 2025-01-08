@@ -36,6 +36,9 @@ public class User {
 
     private String imageSrc;
 
+    @Size(max = 255)
+    private String description;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<UserFile> userFiles;
@@ -104,6 +107,14 @@ public class User {
 
     public void setImageSrc(String imageSrc) {
         this.imageSrc = imageSrc;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<UserFile> getUserFiles() {

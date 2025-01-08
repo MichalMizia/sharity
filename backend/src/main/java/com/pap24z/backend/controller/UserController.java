@@ -61,6 +61,7 @@ public class UserController {
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
             user.setPassword(userDetails.getPassword());
+            user.setDescription(userDetails.getDescription());
             User updatedUser = userService.saveUser(user);
             return ResponseEntity.ok(updatedUser);
         } else {
