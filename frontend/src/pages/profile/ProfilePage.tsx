@@ -4,23 +4,49 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/lib/hooks/useAuth";
 import usePopulatedUserTransactions from "@/lib/hooks/usePopulatedUserTransactions";
 import { Link, Navigate } from "react-router-dom";
+import { useState } from "react";
+import DescriptionUpdateForm from "@/components/forms/DescriptionUpdateForm";
+
 
 interface ProfilePageProps { }
 
 const ProfilePage = ({ }: ProfilePageProps) => {
-  const { user } = useAuth();
-  const {
-    data: transactions,
-    error,
-    isLoading,
-  } = usePopulatedUserTransactions(user?.id || "0");
+  const { user } = useAuth(); // Usunięto `setUser`
+  const { data: transactions, error, isLoading } = usePopulatedUserTransactions(
+    user?.id || "0"
+  );
+
+  const [description, setDescription] = useState(user?.description || ""); // Lokalny stan dla opisu
 
   if (!user) {
     return <Navigate to="/login" />;
   }
 
-  console.log(user);
-  console.log(transactions);
+  // Funkcja obsługująca zapis nowego opisu użytkownika
+  const handleDescriptionSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`/users/${user.id}/description`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ description }),
+      });
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setDescription(updatedUser.description); // Aktualizacja lokalnego stanu opisu po udanej aktualizacji
+        alert("Description updated successfully!");
+      } else {
+        alert("Failed to update description.");
+      }
+    } catch (error) {
+      console.error("Error updating description:", error);
+      alert("An error occurred while updating the description.");
+    }
+  };
 
   return (
     <div className="flex h-full w-full flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden px-4 pb-6 pt-0 xs:pt-6 lg:px-8">
@@ -55,7 +81,6 @@ const ProfilePage = ({ }: ProfilePageProps) => {
             </h2>
           </div>
         </div>
-        {/* <ImageUpdateForm imgSrc={user.image} id={user._id} /> */}
       </div>
 
       <div className="flex flex-col md:flex-row items-start justify-center">
@@ -103,50 +128,18 @@ const ProfilePage = ({ }: ProfilePageProps) => {
 
         <div className="flex-1">
           <AvatarImageForm
-            // imgSrc={user.avatar}
             id={user.id}
             username={user.username}
             imgSrc={user.imageSrc}
           />
         </div>
+
         <div className="flex-1">
           <h3 className="text-xl font-semibold mb-4">Your Description:</h3>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target as HTMLFormElement);
-              const response = await fetch(`/users/${user.id}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ description: formData.get('description') }),
-              });
-
-              if (response.ok) {
-                alert("Description updated successfully!");
-              } else {
-                alert("Failed to update description.");
-              }
-            }}
-          >
-            <textarea
-              name="description"
-              defaultValue={user.description}
-              className="w-full p-2 border rounded"
-              rows={4}
-            ></textarea>
-            <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
-              Update Description
-            </button>
-          </form>
+          <DescriptionUpdateForm />
         </div>
+
       </div>
-
-      {/* <DescriptionUpdateForm id={user._id} summary={user.summary} /> */}
-      {/* <Separator className="my-4 bg-gray-300" /> */}
-
-      {/* <MainContentForm userId={user._id} content={userData.content || ""} /> */}
     </div>
   );
 };

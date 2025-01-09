@@ -15,7 +15,7 @@ export interface UserI {
   id: string;
   role: "USER" | "ADMIN";
   imageSrc: null | string;
-  description: string;
+  description: null | string;
 }
 
 export interface UseAuthReturn {

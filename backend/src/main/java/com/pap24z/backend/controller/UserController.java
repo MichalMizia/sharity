@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -61,7 +62,7 @@ public class UserController {
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
             user.setPassword(userDetails.getPassword());
-            user.setDescription(userDetails.getDescription());
+            // user.setDescription(userDetails.getDescription());
             User updatedUser = userService.saveUser(user);
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -103,6 +104,30 @@ public class UserController {
         }
     }
 
+    @PostMapping("/{id}/description")
+    public ResponseEntity<User> updateUserDescription(
+            @PathVariable Long id,
+            @RequestParam String description, // Dodano @RequestParam dla parametru `description`
+            HttpServletRequest request) { // Wstrzyknięcie `HttpServletRequest`
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getId().equals(id)) {
+            try {
+                user.setDescription(description);
+                User updatedUser = userService.saveUser(user);
+
+                // Zaktualizowanie sesji
+                request.getSession().setAttribute("user", updatedUser);
+                return ResponseEntity.ok(updatedUser);
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body(null);
+            }
+        } else {
+            return ResponseEntity.status(403).body(null);
+        }
+    }
+
     @GetMapping("/{id}/files")
     public ResponseEntity<List<UserFileDTO>> getUserFiles(@PathVariable Long id) {
         List<UserFile> userFiles = userFileService.getUserFilesByUserId(id);
@@ -134,4 +159,28 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{id}/description")
+    public ResponseEntity<String> getUserDescription(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user.getDescription());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // @PutMapping("/{id}/description")
+    // public ResponseEntity<User> updateUserDescription(@PathVariable Long id,
+    // @RequestBody Map<String, String> updates) {
+    // User user = userService.getUserById(id);
+    // if (user != null && updates.containsKey("description")) {
+    // String newDescription = updates.get("description");
+    // user.setDescription(newDescription);
+    // User updatedUser = userService.saveUser(user);
+    // return ResponseEntity.ok(updatedUser);
+    // } else {
+    // return ResponseEntity.notFound().build();
+    // }
+    // }
 }

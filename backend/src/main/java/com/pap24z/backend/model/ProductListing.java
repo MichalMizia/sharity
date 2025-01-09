@@ -135,7 +135,7 @@ public class ProductListing {
     }
 
     public void setPriceChange(int new_price_change) {
-        this.priceFull = new_price_change;
+        this.priceChange = new_price_change;
     }
 
     @Override
