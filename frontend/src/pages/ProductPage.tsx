@@ -79,9 +79,27 @@ const ProductPage: React.FC<ProductPageProps> = () => {
         {/* Seller Details Section */}
         <div className="bg-gray-100 max-w-2xl mx-auto border shadow-black/20 rounded-3xl my-8 border-gray-300 shadow-md w-full p-6">
           <h2 className="text-2xl font-semibold mb-2">Seller Details</h2>
-          <p className="text-gray-700">
-            Additional details about the product can go here.
-          </p>
+          {productData?.user ? (
+            <div className="flex items-center space-x-4">
+              {productData.user.imageSrc ? (
+                <img
+                  src={productData.user.imageSrc}
+                  alt={`${productData.user.username}'s profile`}
+                  className="w-16 h-16 rounded-full"
+                />
+              ) : (
+                <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-gray-500">No Image</span>
+                </div>
+              )}
+              <div>
+                <p className="text-lg font-medium text-gray-900">{productData.user.username}</p>
+                <p className="text-gray-600">Desrcription</p>
+              </div>
+            </div>
+          ) : (
+            <p className="text-gray-700">No seller information available.</p>
+          )}
         </div>
       </main>
 
