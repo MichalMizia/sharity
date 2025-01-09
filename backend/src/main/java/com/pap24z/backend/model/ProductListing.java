@@ -3,6 +3,7 @@ package com.pap24z.backend.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min; // Import adnotacji Min
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +20,10 @@ public class ProductListing {
 
     private String description;
 
+    @Min(value = 0, message = "Price full must be greater than or equal to 0") // Dodano walidację
     private int priceFull;
 
+    @Min(value = 0, message = "Price change must be greater than or equal to 0") // Dodano walidację
     private int priceChange;
 
     private String category;

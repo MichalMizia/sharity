@@ -121,11 +121,17 @@ const AddProductListingForm: React.FC = () => {
             id="price"
             type="number"
             step="0.01"
-            {...register("price", { required: true })}
+            {...register("price", {
+              required: true,
+              min: {
+                value: 0.01,
+                message: "Price must be greater than zero",
+              },
+            })}
             className="block w-full p-2 border border-gray-300 rounded-lg"
           />
           {errors.price && (
-            <span className="text-red-500 text-sm">This field is required</span>
+            <span className="text-red-500 text-sm">{errors.price.message}</span>
           )}
         </div>
         <div className="mb-2">
@@ -196,9 +202,9 @@ const AddProductListingForm: React.FC = () => {
               options={
                 userFiles?.length
                   ? userFiles.map((file) => ({
-                      label: file.fileName,
-                      value: file.id.toString(),
-                    }))
+                    label: file.fileName,
+                    value: file.id.toString(),
+                  }))
                   : []
               }
               onValueChange={(e) => setSelectedFileIds(e)}

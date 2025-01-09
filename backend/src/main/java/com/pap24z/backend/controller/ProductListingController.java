@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,7 +70,7 @@ public class ProductListingController {
 
     @PostMapping
     public ResponseEntity<ProductListingDTO> createProductListing(HttpServletRequest request,
-            @RequestBody ProductListingDTO productListingDTO) {
+            @Valid @RequestBody ProductListingDTO productListingDTO) {
         User user = (User) request.getSession().getAttribute("user");
         System.out.println(user);
         System.out.println(productListingDTO.getUser());
