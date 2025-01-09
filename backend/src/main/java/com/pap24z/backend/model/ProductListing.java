@@ -36,7 +36,7 @@ public class ProductListing {
     @JsonBackReference
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_listing_user_file", joinColumns = @JoinColumn(name = "product_listing_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "user_file_id", referencedColumnName = "ID"))
     @JsonManagedReference
     private List<UserFile> userFiles;

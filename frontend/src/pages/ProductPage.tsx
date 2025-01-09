@@ -94,7 +94,7 @@ const ProductPage: React.FC<ProductPageProps> = () => {
               )}
               <div>
                 <p className="text-lg font-medium text-gray-900">{productData.user.username}</p>
-                <p className="text-gray-600">Desrcription</p>
+                <p className="text-gray-600">{productData.user.description}</p>
               </div>
             </div>
           ) : (

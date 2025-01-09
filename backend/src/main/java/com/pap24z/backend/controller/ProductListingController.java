@@ -138,6 +138,7 @@ public class ProductListingController {
                 productListing.getUser().getEmail(),
                 productListing.getUser().getRole(),
                 productListing.getUser().getImageSrc(),
+                productListing.getUser().getDescription(),
                 "");
 
         return new ProductListingDTO(
