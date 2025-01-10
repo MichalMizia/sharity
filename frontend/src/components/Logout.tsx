@@ -13,6 +13,7 @@ const Logout = ({}: LogoutProps) => {
       await logout();
       queryClient.invalidateQueries({ queryKey: ["auth"] });
       toast.success("Logout successful!");
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
     } catch (error) {
       toast.error("Logout failed. Please try again.");
       console.error(error);

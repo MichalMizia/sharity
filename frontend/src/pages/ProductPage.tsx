@@ -3,15 +3,24 @@ import { useParams } from "react-router-dom";
 import useProductDetails from "@/lib/hooks/useProductDetails";
 import { Badge } from "@/components/ui/badge";
 import useProductListings from "@/lib/hooks/useProductListings";
+import PicturePlaceholder from "@/components/ui/picture_placeholder";
 
-interface ProductPageProps { }
+interface ProductPageProps {}
 
 const ProductPage: React.FC<ProductPageProps> = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data: productData, error: productError, isLoading: productIsLoading } = useProductDetails(Number(id));
+  const {
+    data: productData,
+    error: productError,
+    isLoading: productIsLoading,
+  } = useProductDetails(Number(id));
 
-  const { data: latestProductsData, error: latestProductsError, isLoading: latestProductsIsLoading } = useProductListings({
+  const {
+    data: latestProductsData,
+    error: latestProductsError,
+    isLoading: latestProductsIsLoading,
+  } = useProductListings({
     sortByTime: true,
     limit: 5,
   });
@@ -20,7 +29,8 @@ const ProductPage: React.FC<ProductPageProps> = () => {
   if (productError) return <p>Error: {productError.message}</p>;
 
   if (latestProductsIsLoading) return <p>Loading latest products...</p>;
-  if (latestProductsError) return <p>Error loading latest products: {latestProductsError.message}</p>;
+  if (latestProductsError)
+    return <p>Error loading latest products: {latestProductsError.message}</p>;
 
   const filteredLatestProducts = latestProductsData?.filter(
     (latestProduct) => latestProduct.id !== Number(id)
@@ -28,9 +38,9 @@ const ProductPage: React.FC<ProductPageProps> = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4 bg-white rounded-lg grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <main className="lg:col-span-2">
+      <main className="lg:col-span-2 flex flex-col items-stretch">
         {/* Main Product Card */}
-        <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md shadow-black/20 dark:bg-gray-800 dark:border-gray-700">
+        <div className="max-w-xl w-full mx-auto p-6 bg-white border border-gray-300 rounded-b-md shadow-md shadow-black/10 dark:bg-gray-800 dark:border-gray-700">
           <a href="#">
             <h1 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
               {productData?.title}
@@ -77,24 +87,27 @@ const ProductPage: React.FC<ProductPageProps> = () => {
         </div>
 
         {/* Seller Details Section */}
-        <div className="bg-gray-100 max-w-2xl mx-auto border shadow-black/20 rounded-3xl my-8 border-gray-300 shadow-md w-full p-6">
+        <div className="bg-gray-100 max-w-xl mx-auto border shadow-black/10 rounded-t-md my-8 border-gray-300 shadow-md w-full p-6">
           <h2 className="text-2xl font-semibold mb-2">Seller Details</h2>
           {productData?.user ? (
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center">
               {productData.user.imageSrc ? (
                 <img
                   src={productData.user.imageSrc}
                   alt={`${productData.user.username}'s profile`}
-                  className="w-16 h-16 rounded-full"
+                  className="w-16 h-16 rounded-full mr-4"
                 />
               ) : (
-                <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-gray-500">No Image</span>
-                </div>
+                <PicturePlaceholder className="w-20 h-20 -translate-x-2" />
               )}
               <div>
-                <p className="text-lg font-medium text-gray-900">{productData.user.username}</p>
-                <p className="text-gray-600">{productData.user.description}</p>
+                <p className="text-lg font-medium text-gray-900">
+                  {productData.user.username}
+                </p>
+                <p className="text-gray-600">
+                  {productData.user.description ||
+                    "This person has not filled out their description."}
+                </p>
               </div>
             </div>
           ) : (
@@ -109,8 +122,14 @@ const ProductPage: React.FC<ProductPageProps> = () => {
         <ul className="space-y-4">
           {filteredLatestProducts?.length ? (
             filteredLatestProducts.map((latestProduct) => (
-              <li key={latestProduct.id} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                <a href={`/products/${latestProduct.id}`} className="text-xl font-semibold text-blue-600">
+              <li
+                key={latestProduct.id}
+                className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+              >
+                <a
+                  href={`/products/${latestProduct.id}`}
+                  className="text-xl font-semibold text-blue-600"
+                >
                   {latestProduct.title}
                 </a>
                 <p className="text-gray-700">{latestProduct.description}</p>

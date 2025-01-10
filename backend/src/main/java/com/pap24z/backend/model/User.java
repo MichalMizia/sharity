@@ -39,6 +39,8 @@ public class User {
     @Size(max = 255)
     private String description;
 
+    private double balance = 0.0;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<UserFile> userFiles;
@@ -55,6 +57,7 @@ public class User {
         this.email = email;
         this.setPassword(password);
         this.role = "USER";
+        this.balance = 0.0;
     }
 
     public User(String username, String email, String password, String role) {
@@ -62,6 +65,7 @@ public class User {
         this.email = email;
         this.setPassword(password);
         this.role = role;
+        this.balance = 0.0;
     }
 
     public Long getId() {
@@ -115,6 +119,14 @@ public class User {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public List<UserFile> getUserFiles() {

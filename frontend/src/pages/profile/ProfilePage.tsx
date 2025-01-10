@@ -4,49 +4,22 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/lib/hooks/useAuth";
 import usePopulatedUserTransactions from "@/lib/hooks/usePopulatedUserTransactions";
 import { Link, Navigate } from "react-router-dom";
-import { useState } from "react";
 import DescriptionUpdateForm from "@/components/forms/DescriptionUpdateForm";
+import BalanceCard from "./BalanceCard";
 
+interface ProfilePageProps {}
 
-interface ProfilePageProps { }
-
-const ProfilePage = ({ }: ProfilePageProps) => {
+const ProfilePage = ({}: ProfilePageProps) => {
   const { user } = useAuth(); // Usunięto `setUser`
-  const { data: transactions, error, isLoading } = usePopulatedUserTransactions(
-    user?.id || "0"
-  );
-
-  const [description, setDescription] = useState(user?.description || ""); // Lokalny stan dla opisu
+  const {
+    data: transactions,
+    error,
+    isLoading,
+  } = usePopulatedUserTransactions(user?.id || "0");
 
   if (!user) {
     return <Navigate to="/login" />;
   }
-
-  // Funkcja obsługująca zapis nowego opisu użytkownika
-  const handleDescriptionSave = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`/users/${user.id}/description`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ description }),
-      });
-
-      if (response.ok) {
-        const updatedUser = await response.json();
-        setDescription(updatedUser.description); // Aktualizacja lokalnego stanu opisu po udanej aktualizacji
-        alert("Description updated successfully!");
-      } else {
-        alert("Failed to update description.");
-      }
-    } catch (error) {
-      console.error("Error updating description:", error);
-      alert("An error occurred while updating the description.");
-    }
-  };
 
   return (
     <div className="flex h-full w-full flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden px-4 pb-6 pt-0 xs:pt-6 lg:px-8">
@@ -54,22 +27,25 @@ const ProfilePage = ({ }: ProfilePageProps) => {
         <div className="z-[2] flex flex-col items-start gap-2 pt-8 xs:flex-row xs:items-center xs:pt-0">
           <div className="">
             <h2 className="text-h4 font-semibold text-gray-800">
-              Hello, {user?.username.split(" ")[0]}
+              Hello, {user?.username?.split(" ")[0]}
             </h2>
             <p className="max-w-md text-sm text-text_readable sm:text-h6">
               Fill out your data and add documents to get clients.
             </p>
           </div>
         </div>
-        <Link to={`/profile/add-product`} title="View your profile">
-          <Button
-            variant="primary_outlined"
-            size="large"
-            className="text-gray-700"
-          >
-            Add a product
-          </Button>
-        </Link>
+        <div className="flex gap-4">
+          <BalanceCard />
+          <Link to={`/profile/add-product`} title="View your profile">
+            <Button
+              variant="primary_outlined"
+              size="large"
+              className="text-gray-700"
+            >
+              Add a product
+            </Button>
+          </Link>
+        </div>
       </div>
       <Separator className="my-4 bg-gray-300" />
 
@@ -115,7 +91,7 @@ const ProfilePage = ({ }: ProfilePageProps) => {
                     </div>
                     <Link
                       to={`/profile/bought-products/${transaction.productListingId}`}
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline min-w-[100px] ml-2"
                     >
                       View Product
                     </Link>
@@ -135,10 +111,8 @@ const ProfilePage = ({ }: ProfilePageProps) => {
         </div>
 
         <div className="flex-1">
-          <h3 className="text-xl font-semibold mb-4">Your Description:</h3>
           <DescriptionUpdateForm />
         </div>
-
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ npm run dev
 
 ```sh
 npm run build
-npm start
+npm run preview
 ```
 
 ## Testowanie

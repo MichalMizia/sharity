@@ -80,4 +80,14 @@ public class AuthController {
             return ResponseEntity.status(401).body("No active session");
         }
     }
+
+    @GetMapping("/balance")
+    public ResponseEntity<?> getUserBalance(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user != null) {
+            return ResponseEntity.ok(user.getBalance());
+        } else {
+            return ResponseEntity.status(401).body("No active session");
+        }
+    }
 }

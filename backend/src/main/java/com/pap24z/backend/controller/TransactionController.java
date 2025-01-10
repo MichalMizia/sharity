@@ -44,8 +44,11 @@ public class TransactionController {
         Map<Long, UserFileInfoDTO> accessibleFiles = userTransactions.stream()
                 .flatMap(t -> t.getProductListing().getUserFiles().stream())
                 .filter(uf -> userFileIds.contains(uf.getId()))
-                .collect(Collectors.toMap(UserFile::getId,
-                        uf -> new UserFileInfoDTO(uf.getFileName(), uf.getFilePath())));
+                .collect(Collectors.toMap(
+                        UserFile::getId,
+                        uf -> new UserFileInfoDTO(uf.getFileName(), uf.getFilePath()),
+                        (existing, replacement) -> existing // Ignore duplicates
+                ));
 
         // Check if all requested files are accessible
         boolean allFilesAccessible = userFileIds.stream().allMatch(accessibleFiles::containsKey);
@@ -108,6 +111,10 @@ public class TransactionController {
         if (user.getId().equals(productListing.getUser().getId())) {
             return ResponseEntity.status(400).body(null); // Bad Request
         }
+
+        User seller = productListing.getUser();
+        seller.setBalance(seller.getBalance() + transactionDTO.getAmount());
+        userService.saveUser(seller);
 
         Transaction transaction = convertToEntity(transactionDTO);
         Transaction savedTransaction = transactionService.saveTransaction(transaction);

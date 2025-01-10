@@ -66,7 +66,7 @@ const LatestProductsSection: React.FC<LatestProductsSectionProps> = () => {
                         <div className="w-full">
                           <PackageSearchIcon className="w-12 h-12 m-auto mb-4 mt-2" />
                         </div>
-                        <h3 className="text-xl h-12 flex items-center line-clamp-2 justify-center font-semibold mb-2 text-blue-600">
+                        <h3 className="text-xl h-12  line-clamp-2 justify-center font-semibold mb-2 text-blue-600">
                           {listing.title}{" "}
                         </h3>
                         <div className="text-gray-800 mt-1 gap-0.5 flex items-start justify-center flex-col">
