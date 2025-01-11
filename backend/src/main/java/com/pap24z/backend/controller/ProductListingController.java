@@ -68,6 +68,19 @@ public class ProductListingController {
         return ResponseEntity.ok(productListingDTOs);
     }
 
+    @GetMapping("/search")
+    public List<ProductListingDTO> searchProducts(
+        @RequestParam String keyword,
+        @RequestParam(defaultValue = "10") int limit,
+        @RequestParam(defaultValue = "0") int page
+    ) {
+        return productListingService.searchProductListings(keyword, PageRequest.of(page, limit))
+            .stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+    }
+
+
     @PostMapping
     public ResponseEntity<ProductListingDTO> createProductListing(HttpServletRequest request,
             @Valid @RequestBody ProductListingDTO productListingDTO) {

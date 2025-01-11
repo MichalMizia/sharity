@@ -4,6 +4,7 @@ import com.pap24z.backend.model.ProductListing;
 import com.pap24z.backend.repository.ProductListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class ProductListingService {
 
     public List<ProductListing> getProductListingsByUserId(Long userId) {
         return productListingRepository.findByUserId(userId);
+    }
+
+    public List<ProductListing> searchProductListings(String keyword, Pageable pageable) {
+        return productListingRepository.searchByKeyword(keyword.toLowerCase(), pageable);
     }
 
     public ProductListing saveProductListing(ProductListing productListing) {

@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "ProductListing")
 public class ProductListing {
 
     @Id
@@ -16,6 +17,7 @@ public class ProductListing {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "title")
     private String title;
 
     private String description;
