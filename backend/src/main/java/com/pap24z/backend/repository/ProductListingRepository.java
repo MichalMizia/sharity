@@ -13,7 +13,11 @@ import java.util.List;
 public interface ProductListingRepository extends JpaRepository<ProductListing, Long> {
     List<ProductListing> findByUserId(Long userId);
 
-    @Query("SELECT p FROM ProductListing p WHERE " +
-           "LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    @Query("SELECT p FROM ProductListing p " +
+       "LEFT JOIN p.tags t " +
+       "WHERE (LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+       "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+       "LOWER(p.category) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+       "LOWER(t) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     List<ProductListing> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 }
