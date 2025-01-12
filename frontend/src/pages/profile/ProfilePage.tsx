@@ -64,7 +64,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
       </div>
 
       <div className="flex flex-col md:flex-row items-start justify-center">
-        <div className="flex-1">
+        <div className="flex-1 mr-5">
           <h3 className="text-xl font-semibold mb-4">Products you bought:</h3>
           {isLoading ? (
             <p>Loading...</p>
@@ -106,7 +106,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
           )}
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 mr-5 ml-5">
           <AvatarImageForm
             id={user.id}
             username={user.username}
@@ -114,7 +114,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
           />
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 ml-5">
           <h3 className="text-xl font-semibold mb-4">Profile Description</h3>
 
           {/* Wyświetlanie opisu lub formularza edycji */}

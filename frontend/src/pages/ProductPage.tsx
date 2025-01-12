@@ -84,6 +84,9 @@ const ProductPage: React.FC<ProductPageProps> = () => {
               />
             </svg>
           </a>
+          <div className="mt-4">
+            {productData?.userFileIds.length} {productData?.userFileIds.length > 1 ? `Files` : `File`}
+          </div>
         </div>
 
         {/* Seller Details Section */}
