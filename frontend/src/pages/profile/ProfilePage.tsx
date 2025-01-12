@@ -11,14 +11,13 @@ import BalanceCard from "./BalanceCard";
 interface ProfilePageProps { }
 
 const ProfilePage: React.FC<ProfilePageProps> = () => {
-  const { user } = useAuth(); // Usunięto `setUser`
+  const { user } = useAuth();
   const {
     data: transactions,
     error,
     isLoading,
   } = usePopulatedUserTransactions(user?.id || "0");
 
-  // Stan kontrolujący, czy opis jest edytowany
   const [isEditingDescription, setIsEditingDescription] = useState(false);
 
   if (!user) {
@@ -117,7 +116,6 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
         <div className="flex-1 ml-5">
           <h3 className="text-xl font-semibold mb-4">Profile Description</h3>
 
-          {/* Wyświetlanie opisu lub formularza edycji */}
           {!isEditingDescription ? (
             <div>
               <p className="text-gray-700 mb-4">

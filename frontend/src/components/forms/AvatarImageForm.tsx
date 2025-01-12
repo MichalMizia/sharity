@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import PicturePlaceholder from "@/components/ui/picture_placeholder";
 
 interface AvatarImageFormProps {
   id: string;
@@ -56,15 +57,20 @@ const AvatarImageForm: React.FC<AvatarImageFormProps> = ({
   return (
     <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Upload Profile Image</h2>
-      {imgSrc && (
-        <div className="flex justify-center mb-4">
+
+      {/* Warunkowe renderowanie: jeśli imgSrc istnieje, pokaż obraz, w przeciwnym razie pokaż placeholder */}
+      <div className="flex justify-center mb-4">
+        {imgSrc ? (
           <img
             src={imgSrc}
             alt={`${username}'s profile`}
             className="w-32 h-32 rounded-full object-cover border-2 border-gray-300"
           />
-        </div>
-      )}
+        ) : (
+          <PicturePlaceholder className="w-32 h-32 rounded-full object-cover border-2 border-gray-300" />
+        )}
+      </div>
+
       <form onSubmit={handleFileUpload}>
         <div className="mb-4">
           <input
