@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useSearchProductListings from "@/lib/hooks/useSearchProductListings";
 
@@ -16,6 +16,18 @@ const SearchProductListings = () => {
 
     // Checks if the current page is the last page
     const isLastPage = !isLoading && productListings?.length < limit;
+
+    // Use a state for debounced keyword
+    const [debouncedKeyword, setDebouncedKeyword] = useState(keyword);
+
+    // Set up debounce delay
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedKeyword(keyword);
+        }, 500); // Delay of 500ms
+
+        return () => clearTimeout(timer); // Clear previous timeout if the keyword changes
+    }, [keyword]);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
@@ -48,7 +60,7 @@ const SearchProductListings = () => {
             )}
 
             {/* Product Listings */}
-            {keyword.trim() && productListings?.length ? (
+            {debouncedKeyword.trim() && productListings?.length ? (
                 <ul className="space-y-4">
                     {productListings.map((product) => (
                         <li
@@ -96,8 +108,7 @@ const SearchProductListings = () => {
                     ))}
                 </ul>
             ) : (
-                keyword.trim() &&
-                !isLoading && (
+                debouncedKeyword.trim() && !isLoading && !productListings?.length && (
                     <p className="text-gray-500 text-center">No results found.</p>
                 )
             )}
