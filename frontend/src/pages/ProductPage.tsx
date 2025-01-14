@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import useProductListings from "@/lib/hooks/useProductListings";
 import PicturePlaceholder from "@/components/ui/picture_placeholder";
 
-interface ProductPageProps {}
+interface ProductPageProps { }
 
 const ProductPage: React.FC<ProductPageProps> = () => {
   const { id } = useParams<{ id: string }>();
@@ -84,6 +84,9 @@ const ProductPage: React.FC<ProductPageProps> = () => {
               />
             </svg>
           </a>
+          <div className="mt-4">
+            {productData?.userFileIds.length} {productData?.userFileIds.length > 1 ? `Files` : `File`}
+          </div>
         </div>
 
         {/* Seller Details Section */}
@@ -98,7 +101,7 @@ const ProductPage: React.FC<ProductPageProps> = () => {
                   className="w-16 h-16 rounded-full mr-4"
                 />
               ) : (
-                <PicturePlaceholder className="w-20 h-20 -translate-x-2" />
+                <PicturePlaceholder className="w-16 h-16 rounded-full mr-4" />
               )}
               <div>
                 <p className="text-lg font-medium text-gray-900">

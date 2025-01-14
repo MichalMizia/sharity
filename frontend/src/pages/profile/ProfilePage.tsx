@@ -11,14 +11,13 @@ import BalanceCard from "./BalanceCard";
 interface ProfilePageProps { }
 
 const ProfilePage: React.FC<ProfilePageProps> = () => {
-  const { user } = useAuth(); // Usunięto `setUser`
+  const { user } = useAuth();
   const {
     data: transactions,
     error,
     isLoading,
   } = usePopulatedUserTransactions(user?.id || "0");
 
-  // Stan kontrolujący, czy opis jest edytowany
   const [isEditingDescription, setIsEditingDescription] = useState(false);
 
   if (!user) {
@@ -64,7 +63,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
       </div>
 
       <div className="flex flex-col md:flex-row items-start justify-center">
-        <div className="flex-1">
+        <div className="flex-1 mr-5">
           <h3 className="text-xl font-semibold mb-4">Products you bought:</h3>
           {isLoading ? (
             <p>Loading...</p>
@@ -106,7 +105,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
           )}
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 mr-5 ml-5">
           <AvatarImageForm
             id={user.id}
             username={user.username}
@@ -114,10 +113,9 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
           />
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 ml-5">
           <h3 className="text-xl font-semibold mb-4">Profile Description</h3>
 
-          {/* Wyświetlanie opisu lub formularza edycji */}
           {!isEditingDescription ? (
             <div>
               <p className="text-gray-700 mb-4">
