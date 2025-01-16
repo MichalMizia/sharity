@@ -14,6 +14,7 @@ interface ProductListingDTO {
     id: string;
   };
   userFileIds: number[];
+  previewFileId: number; // Nowe pole dla pliku podglądu
 }
 
 const createProductListing = async (productListing: ProductListingDTO) => {

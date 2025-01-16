@@ -29,6 +29,7 @@ const AddProductListingForm: React.FC = () => {
   } = useForm<IFormInput>();
   const { user } = useAuth();
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>([]);
+  const [previewFileId, setPreviewFileId] = useState<string | "">(""); // Nowe pole dla pliku podglądu
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("");
 
@@ -47,6 +48,11 @@ const AddProductListingForm: React.FC = () => {
       return;
     }
 
+    if (!previewFileId) {
+      toast.error("Please select a preview image");
+      return;
+    }
+
     const priceFull = Math.floor(data.price);
     const priceChange = Math.round((data.price - priceFull) * 100);
 
@@ -61,6 +67,7 @@ const AddProductListingForm: React.FC = () => {
         id: user?.id || "",
       },
       userFileIds: selectedFileIds.map((id) => parseInt(id)),
+      previewFileId: parseInt(previewFileId), // Przekazujemy ID pliku podglądu
     };
 
     mutate(productListing, {
@@ -202,23 +209,55 @@ const AddProductListingForm: React.FC = () => {
               options={
                 userFiles?.length
                   ? userFiles.map((file) => ({
-                    label: file.fileName,
-                    value: file.id.toString(),
-                  }))
+                      label: file.fileName,
+                      value: file.id.toString(),
+                    }))
                   : []
               }
               onValueChange={(e) => setSelectedFileIds(e)}
             />
           )}
         </div>
+        <div className="mb-2">
+          <label
+            htmlFor="previewFile"
+            className="mb-1 block text-sm font-medium text-gray-700"
+          >
+            Select Preview File (Only PNG or JPEG)
+          </label>
+          <Select
+            onValueChange={(e) => setPreviewFileId(e)}
+            disabled={!userFiles?.length}
+          >
+            <SelectTrigger className="w-full min-h-[42px]">
+              <SelectValue placeholder="Select a preview file" />
+            </SelectTrigger>
+            <SelectContent>
+              {userFiles?.length &&
+                userFiles
+                  .filter((file) =>
+                    [".png", ".jpeg", ".jpg"].some((ext) =>
+                      file.fileName.endsWith(ext)
+                    )
+                  )
+                  .map((file) => (
+                    <SelectItem
+                      key={file.id}
+                      value={file.id.toString()}
+                    >
+                      {file.fileName}
+                    </SelectItem>
+                  ))}
+            </SelectContent>
+          </Select>
+        </div>
         <button
           type="submit"
-          className="w-full mt-2 bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition duration-300"
+          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Submitting..." : "Add Product"}
         </button>
-        {isError && <p className="text-red-500 mt-2">{submitError?.message}</p>}
       </form>
     </div>
   );

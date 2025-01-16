@@ -43,6 +43,11 @@ public class ProductListing {
     @JsonManagedReference
     private List<UserFile> userFiles;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "preview_file_id", referencedColumnName = "ID")
+    @JsonManagedReference
+    private UserFile previewFile;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
@@ -50,17 +55,18 @@ public class ProductListing {
     }
 
     public ProductListing(String title, String description, String category, String[] tags, int priceFull,
-            int priceChange, User user,
-            List<UserFile> userFiles) {
-        this.title = title;
-        this.description = description;
-        this.category = category;
-        this.tags = tags;
-        this.priceFull = priceFull;
-        this.priceChange = priceChange;
-        this.user = user;
-        this.userFiles = userFiles;
-    }
+                      int priceChange, User user, List<UserFile> userFiles, UserFile previewFile) {
+    this.title = title;
+    this.description = description;
+    this.category = category;
+    this.tags = tags;
+    this.priceFull = priceFull;
+    this.priceChange = priceChange;
+    this.user = user;
+    this.userFiles = userFiles;
+    this.previewFile = previewFile;
+}
+
 
     @PrePersist
     protected void onCreate() {
@@ -117,6 +123,14 @@ public class ProductListing {
 
     public void setUserFiles(List<UserFile> userFiles) {
         this.userFiles = userFiles;
+    }
+
+    public UserFile getPreviewFile() {
+        return previewFile;
+    }
+
+    public void setPreviewFile(UserFile previewFile) {
+        this.previewFile = previewFile;
     }
 
     public Date getCreatedAt() {
