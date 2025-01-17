@@ -13,6 +13,7 @@ export interface UserI {
   email: string;
   username: string;
   id: string;
+  account_number: string;
   role: "USER" | "ADMIN";
   imageSrc: null | string;
   description?: string;

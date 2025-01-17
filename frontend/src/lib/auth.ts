@@ -6,17 +6,19 @@ interface RegisterI {
   username: string;
   email: string;
   password: string;
+  account_number: string;
 }
 interface LoginI {
   email: string;
   password: string;
 }
 
-export const register = ({ username, email, password }: RegisterI) => {
+export const register = ({ username, email, password, account_number }: RegisterI) => {
   return axios.post(`${API_URL}/auth/register`, {
     username,
     email,
     password,
+    account_number
   });
 };
 
