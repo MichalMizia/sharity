@@ -4,8 +4,9 @@ import useProductDetails from "@/lib/hooks/useProductDetails";
 import { Badge } from "@/components/ui/badge";
 import useProductListings from "@/lib/hooks/useProductListings";
 import PicturePlaceholder from "@/components/ui/picture_placeholder";
+import { API_URL } from "@/lib/auth"; // Dodano import API_URL
 
-interface ProductPageProps { }
+interface ProductPageProps {}
 
 const ProductPage: React.FC<ProductPageProps> = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,16 +37,19 @@ const ProductPage: React.FC<ProductPageProps> = () => {
     (latestProduct) => latestProduct.id !== Number(id)
   );
 
+  // Poprawienie tworzenia URL do obrazka
+  const previewImageURL = productData?.previewFileId
+    ? `${API_URL}/uploads/images/${productData.previewFileId}`
+    : null;
+
   return (
     <div className="max-w-7xl mx-auto p-4 bg-white rounded-lg grid grid-cols-1 lg:grid-cols-3 gap-12">
       <main className="lg:col-span-2 flex flex-col items-stretch">
         {/* Main Product Card */}
         <div className="max-w-xl w-full mx-auto p-6 bg-white border border-gray-300 rounded-b-md shadow-md shadow-black/10 dark:bg-gray-800 dark:border-gray-700">
-          <a href="#">
-            <h1 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-              {productData?.title}
-            </h1>
-          </a>
+          <h1 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            {productData?.title}
+          </h1>
           <p className="mb-3 font-normal text-gray-500 dark:text-gray-400 text-sm">
             {productData?.description}
           </p>
@@ -63,9 +67,27 @@ const ProductPage: React.FC<ProductPageProps> = () => {
               </Badge>
             ))}
           </div>
+
+          {/* Preview Image Section */}
+          <div className="mt-4">
+            {previewImageURL ? (
+              <img
+                src={previewImageURL}
+                alt={productData?.title || "Product Preview"}
+                className="w-full h-auto max-h-96 object-cover rounded-lg"
+                onError={(e) => {
+                  e.currentTarget.src = "/blank_profile_picture.png"; // Ustaw obraz zastępczy
+                  e.currentTarget.alt = "Image not available";
+                }}
+              />
+            ) : (
+              <p>No preview image available</p>
+            )}
+          </div>
+
           <a
             href={`/products/${productData?.id}/purchase`}
-            className="inline-flex font-medium items-center text-blue-600 hover:underline"
+            className="inline-flex font-medium items-center text-blue-600 hover:underline mt-4"
           >
             Buy now
             <svg
@@ -85,7 +107,8 @@ const ProductPage: React.FC<ProductPageProps> = () => {
             </svg>
           </a>
           <div className="mt-4">
-            {productData?.userFileIds.length} {productData?.userFileIds.length > 1 ? `Files` : `File`}
+            {productData?.userFileIds.length}{" "}
+            {productData?.userFileIds.length > 1 ? `Files` : `File`}
           </div>
         </div>
 

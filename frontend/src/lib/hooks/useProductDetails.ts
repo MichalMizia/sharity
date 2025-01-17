@@ -12,6 +12,7 @@ interface ProductDetails {
   tags: string[];
   user: { email: string; username: string; account_number:string, imageSrc: string; description: string; id: number };
   userFileIds: number[];
+  previewFileId?: number;
   createdAt: string;
 }
 

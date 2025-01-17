@@ -57,7 +57,7 @@ class UserControllerTest {
 
     @Test
     void testGetUserById() throws Exception {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         when(userService.getUserById(1L)).thenReturn(user);
 
         mockMvc.perform(get("/users/{id}", 1L))
@@ -79,7 +79,7 @@ class UserControllerTest {
 
     @Test
     void testDeleteUser() throws Exception {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         when(userService.getUserById(1L)).thenReturn(user);
 
         mockMvc.perform(delete("/users/{id}", 1L))
@@ -101,7 +101,7 @@ class UserControllerTest {
 
     @Test
     void testGetUserFiles() throws Exception {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         UserFile userFile = new UserFile("file1", "path/to/file", user, null);
         when(userFileService.getUserFilesByUserId(1L)).thenReturn(List.of(userFile));
 
@@ -114,7 +114,7 @@ class UserControllerTest {
 
     @Test
     void testGetUserDescription() throws Exception {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         user.setDescription("This is a test description.");
         when(userService.getUserById(1L)).thenReturn(user);
 
@@ -127,7 +127,7 @@ class UserControllerTest {
 
     @Test
     void testUpdateUserDescription() throws Exception {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         when(userService.getUserById(1L)).thenReturn(user);
         when(userService.saveUser(any(User.class))).thenReturn(user);
 

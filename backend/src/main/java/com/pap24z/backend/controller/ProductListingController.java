@@ -167,6 +167,7 @@ public class ProductListingController {
                 productListing.getUser().getId(),
                 productListing.getUser().getUsername(),
                 productListing.getUser().getEmail(),
+                productListing.getUser().getAccountNumber(),
                 productListing.getUser().getRole(),
                 productListing.getUser().getImageSrc(),
                 productListing.getUser().getDescription(),
