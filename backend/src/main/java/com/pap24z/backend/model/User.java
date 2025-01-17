@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class User {
     private String password;
 
     @NotBlank
+    @Pattern(
+        regexp = "^(\\d{26}|\\d{2} (\\d{4} ){5}\\d{4})$",
+        message = "Invalid bank account number format"
+    )
     private String account_number;
 
     private String role;

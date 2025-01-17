@@ -36,7 +36,7 @@ class UserServiceTest {
 
     @Test
     void testGetUserById() {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         User foundUser = userService.getUserById(1L);
@@ -46,7 +46,7 @@ class UserServiceTest {
 
     @Test
     void testGetUserByEmail() {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
 
         Optional<User> foundUser = userService.getUserByEmail("test@example.com");
@@ -56,7 +56,7 @@ class UserServiceTest {
 
     @Test
     void testSaveUser() {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         when(userRepository.save(user)).thenReturn(user);
 
         User savedUser = userService.saveUser(user);
@@ -72,7 +72,7 @@ class UserServiceTest {
 
     @Test
     void testVerifyUserPasswordById() {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         user.setPassword("password");
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
@@ -82,7 +82,7 @@ class UserServiceTest {
 
     @Test
     void testVerifyUserPasswordByEmail() {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         user.setPassword("password");
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
 
@@ -92,7 +92,7 @@ class UserServiceTest {
 
     @Test
     void testLoadUserByUsername() {
-        User user = new User("testuser", "test@example.com", "password");
+        User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
 
         UserDetails userDetails = userService.loadUserByUsername("test@example.com");

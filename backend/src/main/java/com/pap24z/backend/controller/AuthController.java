@@ -2,6 +2,8 @@ package com.pap24z.backend.controller;
 
 import com.pap24z.backend.controller.DTO.UserDTO;
 import com.pap24z.backend.model.User;
+import com.pap24z.backend.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import com.pap24z.backend.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -87,6 +89,20 @@ public class AuthController {
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
             return ResponseEntity.ok(user.getBalance());
+        } else {
+            return ResponseEntity.status(401).body("No active session");
+        }
+    }
+
+    @PostMapping("/balance")
+    public ResponseEntity<?> resetBalance(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        user.setBalance(0);
+        userService.saveUser(user);
+        // transfer money to user's account
+        if (user != null) {
+            return ResponseEntity.ok("Balance reset to 0");
         } else {
             return ResponseEntity.status(401).body("No active session");
         }
