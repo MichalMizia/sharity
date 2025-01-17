@@ -4,17 +4,19 @@ public class UserDTO {
     private Long id;
     private String username;
     private String email;
+    private String account_number;
     private String role;
     private String imageSrc;
     private String description;
     private String password;
 
-    public UserDTO(Long id, String username, String email, String role, String imageSrc, String description,
+    public UserDTO(Long id, String username, String email, String account_number, String role, String imageSrc, String description,
             String password) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.account_number = account_number;
         this.role = role;
         this.imageSrc = imageSrc;
         this.description = description;
@@ -43,6 +45,14 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAccountNumber() {
+        return account_number;
+    }
+
+    public void setAcountNumber(String account_number) {
+        this.account_number = account_number;
     }
 
     public String getRole() {

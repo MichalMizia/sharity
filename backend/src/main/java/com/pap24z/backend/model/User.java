@@ -32,6 +32,9 @@ public class User {
     @NotBlank
     private String password;
 
+    @NotBlank
+    private String account_number;
+
     private String role;
 
     private String imageSrc;
@@ -52,18 +55,22 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String account_number) {
+    // public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.setPassword(password);
+        this.account_number = account_number;
         this.role = "USER";
         this.balance = 0.0;
     }
 
-    public User(String username, String email, String password, String role) {
+    public User(String username, String email, String password, String account_number, String role) {
+    // public User(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.setPassword(password);
+        this.account_number = account_number;
         this.role = role;
         this.balance = 0.0;
     }
@@ -91,6 +98,14 @@ public class User {
     public void setPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
+    }
+
+    public String getAccountNumber() {
+        return account_number;
+    }
+
+    public void setAcountNumber(String account_number) {
+        this.account_number = account_number;
     }
 
     public String getPassword() {

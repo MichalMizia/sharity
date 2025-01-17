@@ -33,11 +33,12 @@ public class AuthController {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
+        user.setAcountNumber(userDTO.getAccountNumber());
         user.setPassword(userDTO.getPassword());
         user.setRole("USER");
         userService.saveUser(user);
         System.out.println("Received user: " + user.getUsername() + " " + user.getEmail() + " " + user.getPassword()
-                + " " + user.getRole());
+                + " " + user.getAccountNumber() + " " + user.getRole());
         return ResponseEntity.ok("User registered successfully");
     }
 
@@ -73,7 +74,7 @@ public class AuthController {
         User user = (User) request.getSession().getAttribute("user");
         System.out.println("Session in session: " + user);
         if (user != null) {
-            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),
+            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getAccountNumber(), user.getRole(),
                     user.getImageSrc(), user.getDescription(), "");
             return ResponseEntity.ok(userDTO);
         } else {
