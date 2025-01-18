@@ -34,16 +34,23 @@ public class ProductListingController {
     private UserFileService userFileService;
 
     @GetMapping
-    public List<ProductListing> getAllProductListings(
+    public List<ProductListingDTO> getAllProductListings(
             @RequestParam(defaultValue = "false") boolean sortByTime,
             @RequestParam(defaultValue = "10") int limit) {
+        List<ProductListing> productListings;
         if (sortByTime) {
-            return productListingService
+            productListings = productListingService
                     .getAllProductListings(PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createdAt")));
         } else {
-            return productListingService.getAllProductListings(PageRequest.of(0, limit));
+            productListings = productListingService.getAllProductListings(PageRequest.of(0, limit));
         }
+
+        // Mapowanie encji na DTO
+        return productListings.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductListingDTO> getProductListingById(@PathVariable Long id) {
@@ -85,8 +92,6 @@ public class ProductListingController {
     public ResponseEntity<ProductListingDTO> createProductListing(HttpServletRequest request,
             @Valid @RequestBody ProductListingDTO productListingDTO) {
         User user = (User) request.getSession().getAttribute("user");
-        System.out.println(user);
-        System.out.println(productListingDTO.getUser());
 
         if (user == null || !user.getId().equals(productListingDTO.getUser().getId())) {
             return ResponseEntity.status(403).build();
@@ -115,16 +120,29 @@ public class ProductListingController {
             productListing.setTitle(productListingDTO.getTitle());
             productListing.setDescription(productListingDTO.getDescription());
             productListing.setTags(productListingDTO.getTags());
+            productListing.setPriceFull(productListingDTO.getPriceFull());
+            productListing.setPriceChange(productListingDTO.getPriceChange());
+            productListing.setCategory(productListingDTO.getCategory());
+
+            // Aktualizacja plików użytkownika (jeśli są jakieś)
             productListing.setUserFiles(productListingDTO.getUserFileIds().stream()
-                    .map(userFileService::getUserFileById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList()));
+                .map(userFileService::getUserFileById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList()));
+
+            // Aktualizacja pliku podglądu (previewFile)
+            Optional<UserFile> previewFileOptional = userFileService.getUserFileById(productListingDTO.getPreviewFileId());
+            if (previewFileOptional.isPresent()) {
+                productListing.setPreviewFile(previewFileOptional.get());
+            }
+
             ProductListing updatedProductListing = productListingService.saveProductListing(productListing);
             return ResponseEntity.ok(convertToDTO(updatedProductListing));
         } else {
             return ResponseEntity.notFound().build();
         }
+
     }
 
     @DeleteMapping("/{id}")
@@ -149,23 +167,27 @@ public class ProductListingController {
                 productListing.getUser().getId(),
                 productListing.getUser().getUsername(),
                 productListing.getUser().getEmail(),
+                productListing.getUser().getAccountNumber(),
                 productListing.getUser().getRole(),
                 productListing.getUser().getImageSrc(),
                 productListing.getUser().getDescription(),
                 "");
 
-        return new ProductListingDTO(
-                productListing.getId(),
-                productListing.getTitle(),
-                productListing.getDescription(),
-                productListing.getPriceFull(),
-                productListing.getPriceChange(),
-                productListing.getCategory(),
-                productListing.getTags(),
-                userDTO,
-                productListing.getUserFiles().stream()
+                return new ProductListingDTO(
+                    productListing.getId(),
+                    productListing.getTitle(),
+                    productListing.getDescription(),
+                    productListing.getPriceFull(),
+                    productListing.getPriceChange(),
+                    productListing.getCategory(),
+                    productListing.getTags(),
+                    userDTO,
+                    productListing.getUserFiles().stream()
                         .map(UserFile::getId)
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList()),
+                    productListing.getPreviewFile() != null ? productListing.getPreviewFile().getId() : null // Dodano previewFileId
+                );
+
     }
 
     private ProductListing convertToEntity(ProductListingDTO productListingDTO) {
@@ -176,14 +198,20 @@ public class ProductListingController {
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
-        return new ProductListing(
-                productListingDTO.getTitle(),
-                productListingDTO.getDescription(),
-                productListingDTO.getCategory(),
-                productListingDTO.getTags(),
-                productListingDTO.getPriceFull(),
-                productListingDTO.getPriceChange(),
-                user,
-                userFiles);
+                Optional<UserFile> previewFileOptional = userFileService.getUserFileById(productListingDTO.getPreviewFileId());
+                UserFile previewFile = previewFileOptional.orElse(null); // Obsłuż brakujący plik podglądu
+
+                return new ProductListing(
+                    productListingDTO.getTitle(),
+                    productListingDTO.getDescription(),
+                    productListingDTO.getCategory(),
+                    productListingDTO.getTags(),
+                    productListingDTO.getPriceFull(),
+                    productListingDTO.getPriceChange(),
+                    user,
+                    userFiles,
+                    previewFile // Dodano previewFile
+                );
+
     }
 }

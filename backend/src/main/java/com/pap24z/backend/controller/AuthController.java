@@ -2,6 +2,8 @@ package com.pap24z.backend.controller;
 
 import com.pap24z.backend.controller.DTO.UserDTO;
 import com.pap24z.backend.model.User;
+import com.pap24z.backend.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import com.pap24z.backend.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,11 +35,12 @@ public class AuthController {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
+        user.setAcountNumber(userDTO.getAccountNumber());
         user.setPassword(userDTO.getPassword());
         user.setRole("USER");
         userService.saveUser(user);
         System.out.println("Received user: " + user.getUsername() + " " + user.getEmail() + " " + user.getPassword()
-                + " " + user.getRole());
+                + " " + user.getAccountNumber() + " " + user.getRole());
         return ResponseEntity.ok("User registered successfully");
     }
 
@@ -73,7 +76,7 @@ public class AuthController {
         User user = (User) request.getSession().getAttribute("user");
         System.out.println("Session in session: " + user);
         if (user != null) {
-            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),
+            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getAccountNumber(), user.getRole(),
                     user.getImageSrc(), user.getDescription(), "");
             return ResponseEntity.ok(userDTO);
         } else {
@@ -86,6 +89,20 @@ public class AuthController {
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
             return ResponseEntity.ok(user.getBalance());
+        } else {
+            return ResponseEntity.status(401).body("No active session");
+        }
+    }
+
+    @PostMapping("/balance")
+    public ResponseEntity<?> resetBalance(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        user.setBalance(0);
+        userService.saveUser(user);
+        // transfer money to user's account
+        if (user != null) {
+            return ResponseEntity.ok("Balance reset to 0");
         } else {
             return ResponseEntity.status(401).body("No active session");
         }

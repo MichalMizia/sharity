@@ -12,6 +12,7 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private String name;
     private String email;
+    private String account_number;
     private Collection<? extends GrantedAuthority> authorities;
 
     // Getters and Setters
@@ -55,6 +56,14 @@ public class CustomUserDetails implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAccountNumber() {
+        return account_number;
+    }
+
+    public void setAcountNumber(String account_number) {
+        this.account_number = account_number;
     }
 
     @Override
