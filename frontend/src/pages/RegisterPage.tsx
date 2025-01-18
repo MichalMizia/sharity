@@ -117,6 +117,12 @@ const RegisterPage = ({}: RegisterPageProps) => {
             >
               Register
             </button>
+            <div className="mt-4 text-center">
+              Forgot your password?
+              <a href="/reset-password" className="ml-[1ch] text-blue-600">
+                Reset it here
+              </a>
+            </div>
           </form>
         </div>
       </div>

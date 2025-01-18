@@ -28,6 +28,7 @@ public class WebSecurityConfig {
                 return http
                                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                                                 .requestMatchers("/public/**", "/auth/**", "/users/**",
+                                                                "/password/**",
                                                                 "/v3/api-docs/**", "/product-listings/**")
                                                 .permitAll()
                                                 .anyRequest().access(this::customAccessDecision))

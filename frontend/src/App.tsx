@@ -10,6 +10,8 @@ import AddProductPage from "./pages/profile/AddProductPage";
 import ProductPage from "./pages/ProductPage";
 import BuyProductPage from "./pages/BuyProductPage";
 import BoughtProductPage from "./pages/profile/BoughtProductPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route element={<AuthRoute />}>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="reset-password" element={<ResetPasswordPage />} />
+            <Route path="change-password" element={<ChangePasswordPage />} />
           </Route>
           <Route element={<AuthenticatedRoute />}>
             {/* authenticated routes */}
