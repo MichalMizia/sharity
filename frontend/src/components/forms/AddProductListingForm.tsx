@@ -29,7 +29,7 @@ const AddProductListingForm: React.FC = () => {
   } = useForm<IFormInput>();
   const { user } = useAuth();
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>([]);
-  const [previewFileId, setPreviewFileId] = useState<string | "">(""); // Nowe pole dla pliku podglądu
+  const [previewFileId, setPreviewFileId] = useState<string | "">(""); // Pole dla pliku podglądu (opcjonalne)
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("");
 
@@ -48,15 +48,11 @@ const AddProductListingForm: React.FC = () => {
       return;
     }
 
-    if (!previewFileId) {
-      toast.error("Please select a preview image");
-      return;
-    }
-
     const priceFull = Math.floor(data.price);
     const priceChange = Math.round((data.price - priceFull) * 100);
 
-    const productListing = {
+    // Tworzymy obiekt bez previewFileId, jeśli nie zostało wybrane
+    const productListing: any = {
       ...data,
       priceFull,
       priceChange,
@@ -67,8 +63,12 @@ const AddProductListingForm: React.FC = () => {
         id: user?.id || "",
       },
       userFileIds: selectedFileIds.map((id) => parseInt(id)),
-      previewFileId: parseInt(previewFileId), // Przekazujemy ID pliku podglądu
     };
+
+    // Tylko jeśli wybrano plik podglądu, dodajemy go do obiektu
+    if (previewFileId) {
+      productListing.previewFileId = parseInt(previewFileId);
+    }
 
     mutate(productListing, {
       onSuccess: () => {
@@ -223,7 +223,7 @@ const AddProductListingForm: React.FC = () => {
             htmlFor="previewFile"
             className="mb-1 block text-sm font-medium text-gray-700"
           >
-            Select Preview File (Only PNG or JPEG)
+            Select Preview File (Optional, Only PNG or JPEG)
           </label>
           <Select
             onValueChange={(e) => setPreviewFileId(e)}
@@ -241,10 +241,7 @@ const AddProductListingForm: React.FC = () => {
                     )
                   )
                   .map((file) => (
-                    <SelectItem
-                      key={file.id}
-                      value={file.id.toString()}
-                    >
+                    <SelectItem key={file.id} value={file.id.toString()}>
                       {file.fileName}
                     </SelectItem>
                   ))}
