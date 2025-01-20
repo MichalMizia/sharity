@@ -7,7 +7,6 @@ interface RegisterPageProps {}
 interface IFormInput {
   username: string;
   email: string;
-  account_number: string;
   password: string;
   confirmPassword: string;
 }
@@ -24,7 +23,6 @@ const RegisterPage = ({}: RegisterPageProps) => {
         email: data.email,
         username: data.username,
         password: data.password,
-        account_number: data.account_number,
       });
       console.log("Response: ", res);
 
@@ -81,24 +79,24 @@ const RegisterPage = ({}: RegisterPageProps) => {
                 </span>
               )}
             </div>
-            <div className="mb-4">
-              <label htmlFor="account_number" className="block text-gray-700">
-                Account number
-              </label>
-              <input
-                  id="account_number"
-                  type="account_number"
-                  pattern="(\d{26}|\d{2} (\d{4} ){5}\d{4})"
-                  title="Nr konta bankowego IBAN"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  {...register("account_number", {required: true})}
-              />
-              {errors.account_number && (
-                  <span className="text-red-500 text-sm">
-                  This field is required
-                </span>
-              )}
-            </div>
+            {/*<div className="mb-4">*/}
+            {/*  <label htmlFor="account_number" className="block text-gray-700">*/}
+            {/*    Account number*/}
+            {/*  </label>*/}
+            {/*  <input*/}
+            {/*      id="account_number"*/}
+            {/*      type="account_number"*/}
+            {/*      pattern="(\d{26}|\d{2} (\d{4} ){5}\d{4})"*/}
+            {/*      title="Nr konta bankowego IBAN"*/}
+            {/*      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"*/}
+            {/*      {...register("account_number", {required: true})}*/}
+            {/*  />*/}
+            {/*  {errors.account_number && (*/}
+            {/*      <span className="text-red-500 text-sm">*/}
+            {/*      This field is required*/}
+            {/*    </span>*/}
+            {/*  )}*/}
+            {/*</div>*/}
             <div className="mb-4">
               <label htmlFor="password" className="block text-gray-700">
                 Password

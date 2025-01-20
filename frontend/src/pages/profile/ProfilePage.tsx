@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AvatarImageForm from "@/components/forms/AvatarImageForm";
 import Button from "@/components/ui/Button";
 import { Separator } from "@/components/ui/separator";
@@ -7,6 +7,7 @@ import usePopulatedUserTransactions from "@/lib/hooks/usePopulatedUserTransactio
 import { Link, Navigate } from "react-router-dom";
 import DescriptionUpdateForm from "@/components/forms/DescriptionUpdateForm";
 import BalanceCard from "./BalanceCard";
+import AccountNumber from "./AccountNumber";
 
 interface ProfilePageProps { }
 
@@ -38,19 +39,20 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
           </div>
         </div>
         <div className="flex gap-4">
-          <BalanceCard />
+          <AccountNumber userId={user?.id} />
+          <BalanceCard/>
           <Link to={`/profile/add-product`} title="View your profile">
             <Button
-              variant="primary_outlined"
-              size="large"
-              className="text-gray-700"
+                variant="primary_outlined"
+                size="large"
+                className="text-gray-700"
             >
               Add a product
             </Button>
           </Link>
         </div>
       </div>
-      <Separator className="my-4 bg-gray-300" />
+      <Separator className="my-4 bg-gray-300"/>
 
       <div className="hidden xs:block">
         <div className="mb-2 flex items-center justify-between gap-4">
@@ -66,14 +68,14 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
         <div className="flex-1 mr-5">
           <h3 className="text-xl font-semibold mb-4">Products you bought:</h3>
           {isLoading ? (
-            <p>Loading...</p>
+              <p>Loading...</p>
           ) : error ? (
-            <p>Error: {error.message}</p>
+              <p>Error: {error.message}</p>
           ) : (
-            <ul className="space-y-4">
-              {transactions?.map((transaction) => (
-                <li
-                  key={transaction.id}
+              <ul className="space-y-4">
+                {transactions?.map((transaction) => (
+                    <li
+                        key={transaction.id}
                   className="bg-white p-4 rounded-lg shadow-md"
                 >
                   <div className="flex justify-between items-center">

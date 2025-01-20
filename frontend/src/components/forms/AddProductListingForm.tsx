@@ -242,7 +242,7 @@ const AddProductListingForm: React.FC = () => {
                     )
                   )
                   .map((file) => (
-                    <SelectItem key={file.id} value={file.id.toString()}>
+                    // <SelectItem key={file.id} value={file.id.toString()}>
                     <SelectItem key={file.id} value={file.id.toString()}>
                       {file.fileName}
                     </SelectItem>

@@ -31,9 +31,9 @@ const BalanceCard = ({}: BalanceCardProps) => {
 
       toast.success("Money send to your account");
     },
-    onError: (error: any) => {
+    onError: () => {
       // console.error("Error resetting balance:", error);
-      toast.error("Failed to withdraw money");
+      toast.error("Fill your account number before.");
     },
   });
 
@@ -63,7 +63,7 @@ const BalanceCard = ({}: BalanceCardProps) => {
             className="cursor-pointer bg-blue-500 bg-gradient-to-br min-w-lg from-red-500/60 to-indigo-500/40 inline-flex items-center justify-center px-4 py-2.5 rounded-[4px] text-white hover-circle-overlay border-blue-600 shadow-inner border-2 relative overflow-hidden"
         >
           <strong className="mr-[0.75ch]">
-            {resetBalanceMutation.isLoading ? "Processing..." : "Reset Balance"}
+            {resetBalanceMutation.isLoading ? "Processing..." : "Payout"}
           </strong>
         </div>
       </div>
