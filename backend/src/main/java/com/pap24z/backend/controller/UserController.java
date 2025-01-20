@@ -1,6 +1,7 @@
 package com.pap24z.backend.controller;
 
 import com.pap24z.backend.controller.DTO.UserFileDTO;
+import com.pap24z.backend.controller.DTO.UserDTO;
 import com.pap24z.backend.model.User;
 import com.pap24z.backend.model.UserFile;
 import com.pap24z.backend.service.UserFileService;
@@ -82,6 +83,22 @@ public class UserController {
         }
     }
 
+    @PutMapping("/account")
+    public ResponseEntity<UserDTO> updateUserAccountNumber(HttpServletRequest request, @RequestParam String acc_number) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return ResponseEntity.status(403).build();
+        }
+        try{
+            user.setAcountNumber(acc_number);
+            User updatedUser = userService.saveUser(user);
+            return ResponseEntity.ok(toDTO(updatedUser));
+        }
+        catch(Exception e){
+            return ResponseEntity.status(400).body(null); // Bad Request
+        }
+    }
+
     // update profile image
     @PostMapping("/{id}/profile-image")
     public ResponseEntity<User> updateUserProfileImage(HttpServletRequest request, @PathVariable Long id,
@@ -160,4 +177,22 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    private static UserDTO toDTO(User user) {
+        if (user == null) {
+            return null;
+        }
+
+        return new UserDTO(
+            user.getId(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getAccountNumber(),
+            user.getRole(),
+            user.getImageSrc(),
+            user.getDescription(),
+            user.getPassword()
+        );
+    }
 }
+
