@@ -98,13 +98,17 @@ public class AuthController {
     public ResponseEntity<?> resetBalance(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
 
+        if (user != null) {
+            if(user.getAccountNumber() == null){
+                return ResponseEntity.status(400).body("No account number given");
+            }
+        }
+        else return ResponseEntity.status(401).body("No active session");
+
         user.setBalance(0);
         userService.saveUser(user);
         // transfer money to user's account
-        if (user != null) {
-            return ResponseEntity.ok("Balance reset to 0");
-        } else {
-            return ResponseEntity.status(401).body("No active session");
-        }
+        
+        return ResponseEntity.ok("Balance reset to 0");
     }
 }

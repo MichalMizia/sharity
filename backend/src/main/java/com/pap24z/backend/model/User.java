@@ -33,7 +33,7 @@ public class User {
     @NotBlank
     private String password;
 
-    @NotBlank
+    
     @Pattern(
         regexp = "^(\\d{26}|\\d{2} (\\d{4} ){5}\\d{4})$",
         message = "Invalid bank account number format"
@@ -65,7 +65,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.setPassword(password);
-        this.account_number = account_number;
+        // this.account_number = null;
         this.role = "USER";
         this.balance = 0.0;
     }
@@ -75,7 +75,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.setPassword(password);
-        this.account_number = account_number;
+        // this.account_number = null;
         this.role = role;
         this.balance = 0.0;
     }
