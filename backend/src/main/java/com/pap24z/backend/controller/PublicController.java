@@ -27,6 +27,7 @@ public class PublicController {
     public ResponseEntity<Resource> serveFile(@PathVariable String filename,
             @RequestParam(defaultValue = "false") boolean download, HttpServletRequest request) {
         try {
+            System.out.println("Serving file: " + filename);
             Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 

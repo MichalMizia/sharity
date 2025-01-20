@@ -29,7 +29,7 @@ const AddProductListingForm: React.FC = () => {
   } = useForm<IFormInput>();
   const { user } = useAuth();
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>([]);
-  const [previewFileId, setPreviewFileId] = useState<string | "">(""); // Nowe pole dla pliku podglądu
+  const [previewFileId, setPreviewFileId] = useState<string | "">("");
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("");
 
@@ -48,11 +48,6 @@ const AddProductListingForm: React.FC = () => {
       return;
     }
 
-    if (!previewFileId) {
-      toast.error("Please select a preview image");
-      return;
-    }
-
     const priceFull = Math.floor(data.price);
     const priceChange = Math.round((data.price - priceFull) * 100);
 
@@ -67,7 +62,7 @@ const AddProductListingForm: React.FC = () => {
         id: user?.id || "",
       },
       userFileIds: selectedFileIds.map((id) => parseInt(id)),
-      previewFileId: parseInt(previewFileId), // Przekazujemy ID pliku podglądu
+      previewFileId: parseInt(previewFileId),
     };
 
     mutate(productListing, {
@@ -241,10 +236,7 @@ const AddProductListingForm: React.FC = () => {
                     )
                   )
                   .map((file) => (
-                    <SelectItem
-                      key={file.id}
-                      value={file.id.toString()}
-                    >
+                    <SelectItem key={file.id} value={file.id.toString()}>
                       {file.fileName}
                     </SelectItem>
                   ))}

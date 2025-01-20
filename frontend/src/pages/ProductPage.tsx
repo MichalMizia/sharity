@@ -37,9 +37,8 @@ const ProductPage: React.FC<ProductPageProps> = () => {
     (latestProduct) => latestProduct.id !== Number(id)
   );
 
-  // Poprawienie tworzenia URL do obrazka
-  const previewImageURL = productData?.previewFileId
-    ? `${API_URL}/uploads/images/${productData.previewFileId}`
+  const previewImageURL = productData?.previewFileUrl
+    ? `${API_URL}${productData.previewFileUrl}`
     : null;
 
   return (
@@ -76,7 +75,7 @@ const ProductPage: React.FC<ProductPageProps> = () => {
                 alt={productData?.title || "Product Preview"}
                 className="w-full h-auto max-h-96 object-cover rounded-lg"
                 onError={(e) => {
-                  e.currentTarget.src = "/blank_profile_picture.png"; // Ustaw obraz zastępczy
+                  e.currentTarget.src = "/blank_profile_picture.png";
                   e.currentTarget.alt = "Image not available";
                 }}
               />
@@ -106,10 +105,12 @@ const ProductPage: React.FC<ProductPageProps> = () => {
               />
             </svg>
           </a>
-          <div className="mt-4">
-            {productData?.userFileIds.length}{" "}
-            {productData?.userFileIds.length > 1 ? `Files` : `File`}
-          </div>
+          {productData?.userFileIds.length && (
+            <div className="mt-4">
+              {productData?.userFileIds.length}{" "}
+              {productData?.userFileIds?.length > 1 ? `Files` : `File`}
+            </div>
+          )}
         </div>
 
         {/* Seller Details Section */}

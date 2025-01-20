@@ -14,23 +14,24 @@ public class ProductListingDTO {
     private UserDTO user;
     private List<Long> userFileIds;
     private Long previewFileId;
+    private String previewFileUrl;
 
     public ProductListingDTO() {
     }
 
     public ProductListingDTO(Long id, String title, String description, int priceFull, int priceChange, String category,
-    String[] tags, UserDTO user, List<Long> userFileIds, Long previewFileId) { // Dodajemy previewFileId
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.priceFull = priceFull;
-    this.priceChange = priceChange;
-    this.category = category;
-    this.tags = tags;
-    this.user = user;
-    this.userFileIds = userFileIds;
-    this.previewFileId = previewFileId; // Ustawiamy previewFileId
-}
+            String[] tags, UserDTO user, List<Long> userFileIds, Long previewFileId) { // Dodajemy previewFileId
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.priceFull = priceFull;
+        this.priceChange = priceChange;
+        this.category = category;
+        this.tags = tags;
+        this.user = user;
+        this.userFileIds = userFileIds;
+        this.previewFileId = previewFileId;
+    }
 
     public Long getId() {
         return id;
@@ -38,6 +39,14 @@ public class ProductListingDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPreviewFileUrl() {
+        return previewFileUrl;
+    }
+
+    public void setPreviewFileUrl(String previewFileUrl) {
+        this.previewFileUrl = previewFileUrl;
     }
 
     public String getTitle() {
