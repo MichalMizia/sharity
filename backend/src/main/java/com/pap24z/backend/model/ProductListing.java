@@ -166,6 +166,7 @@ public class ProductListing {
                 ", tags=" + Arrays.toString(tags) +
                 ", user=" + user +
                 ", userFiles=" + userFiles +
+                ", previewFile=" + previewFile +
                 ", createdAt=" + createdAt +
                 '}';
     }

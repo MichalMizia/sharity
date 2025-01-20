@@ -12,6 +12,7 @@ interface ProductListing {
   tags: string[];
   userId: number;
   userFileIds: number[];
+  previewFileId?: number;
   createdAt: string;
 }
 
