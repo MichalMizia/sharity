@@ -1,5 +1,6 @@
 package com.pap24z.backend.controller.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListingDTO {
@@ -13,14 +14,14 @@ public class ProductListingDTO {
     private String[] tags;
     private UserDTO user;
     private List<Long> userFileIds;
-    private Long previewFileId;
-    private String previewFileUrl;
+    private List<Long> previewFileIds;
+    private List<String> previewFileUrls;
 
     public ProductListingDTO() {
     }
 
     public ProductListingDTO(Long id, String title, String description, int priceFull, int priceChange, String category,
-            String[] tags, UserDTO user, List<Long> userFileIds, Long previewFileId) { // Dodajemy previewFileId
+            String[] tags, UserDTO user, List<Long> userFileIds, List<Long> previewFileIds) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -29,8 +30,10 @@ public class ProductListingDTO {
         this.category = category;
         this.tags = tags;
         this.user = user;
-        this.userFileIds = userFileIds;
-        this.previewFileId = previewFileId;
+        this.userFileIds = (userFileIds != null && userFileIds.isEmpty() == false) ? userFileIds : new ArrayList<>();
+        this.previewFileIds = (previewFileIds != null && previewFileIds.isEmpty() == false) ? previewFileIds
+                : new ArrayList<>();
+        this.previewFileUrls = new ArrayList<>();
     }
 
     public Long getId() {
@@ -41,12 +44,12 @@ public class ProductListingDTO {
         this.id = id;
     }
 
-    public String getPreviewFileUrl() {
-        return previewFileUrl;
+    public List<String> getPreviewFileUrls() {
+        return previewFileUrls;
     }
 
-    public void setPreviewFileUrl(String previewFileUrl) {
-        this.previewFileUrl = previewFileUrl;
+    public void setPreviewFileUrls(List<String> previewFileUrls) {
+        this.previewFileUrls = previewFileUrls;
     }
 
     public String getTitle() {
@@ -113,11 +116,11 @@ public class ProductListingDTO {
         this.userFileIds = userFileIds;
     }
 
-    public Long getPreviewFileId() {
-        return previewFileId;
+    public List<Long> getPreviewFileIds() {
+        return previewFileIds;
     }
 
-    public void setPreviewFileId(Long previewFileId) {
-        this.previewFileId = previewFileId;
+    public void setPreviewFileIds(List<Long> previewFileIds) {
+        this.previewFileIds = previewFileIds;
     }
 }

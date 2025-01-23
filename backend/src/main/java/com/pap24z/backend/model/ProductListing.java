@@ -3,7 +3,9 @@ package com.pap24z.backend.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min; // Import adnotacji Min
+import jakarta.validation.constraints.Min;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +24,10 @@ public class ProductListing {
 
     private String description;
 
-    @Min(value = 0, message = "Price full must be greater than or equal to 0") // Dodano walidację
+    @Min(value = 0, message = "Price full must be greater than or equal to 0")
     private int priceFull;
 
-    @Min(value = 0, message = "Price change must be greater than or equal to 0") // Dodano walidację
+    @Min(value = 0, message = "Price change must be greater than or equal to 0")
     private int priceChange;
 
     private String category;
@@ -43,10 +45,10 @@ public class ProductListing {
     @JsonManagedReference
     private List<UserFile> userFiles;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "preview_file_id", referencedColumnName = "ID")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "product_listing_preview_file", joinColumns = @JoinColumn(name = "product_listing_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "user_file_id", referencedColumnName = "ID"))
     @JsonManagedReference
-    private UserFile previewFile;
+    private List<UserFile> previewFiles;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -55,18 +57,17 @@ public class ProductListing {
     }
 
     public ProductListing(String title, String description, String category, String[] tags, int priceFull,
-                      int priceChange, User user, List<UserFile> userFiles, UserFile previewFile) {
-    this.title = title;
-    this.description = description;
-    this.category = category;
-    this.tags = tags;
-    this.priceFull = priceFull;
-    this.priceChange = priceChange;
-    this.user = user;
-    this.userFiles = userFiles;
-    this.previewFile = previewFile;
-}
-
+            int priceChange, User user, List<UserFile> userFiles, List<UserFile> previewFiles) {
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.tags = tags;
+        this.priceFull = priceFull;
+        this.priceChange = priceChange;
+        this.user = user;
+        this.userFiles = (userFiles != null && !userFiles.isEmpty()) ? userFiles : new ArrayList<>();
+        this.previewFiles = (previewFiles != null && !previewFiles.isEmpty()) ? previewFiles : new ArrayList<>();
+    }
 
     @PrePersist
     protected void onCreate() {
@@ -125,12 +126,12 @@ public class ProductListing {
         this.userFiles = userFiles;
     }
 
-    public UserFile getPreviewFile() {
-        return previewFile;
+    public List<UserFile> getPreviewFiles() {
+        return previewFiles;
     }
 
-    public void setPreviewFile(UserFile previewFile) {
-        this.previewFile = previewFile;
+    public void setPreviewFiles(List<UserFile> previewFiles) {
+        this.previewFiles = previewFiles;
     }
 
     public Date getCreatedAt() {
@@ -145,16 +146,16 @@ public class ProductListing {
         return this.priceFull;
     }
 
-    public void setPriceFull(int new_price_full) {
-        this.priceFull = new_price_full;
+    public void setPriceFull(int priceFull) {
+        this.priceFull = priceFull;
     }
 
     public int getPriceChange() {
         return this.priceChange;
     }
 
-    public void setPriceChange(int new_price_change) {
-        this.priceChange = new_price_change;
+    public void setPriceChange(int priceChange) {
+        this.priceChange = priceChange;
     }
 
     @Override
@@ -166,7 +167,7 @@ public class ProductListing {
                 ", tags=" + Arrays.toString(tags) +
                 ", user=" + user +
                 ", userFiles=" + userFiles +
-                ", previewFile=" + previewFile +
+                ", previewFiles=" + previewFiles +
                 ", createdAt=" + createdAt +
                 '}';
     }

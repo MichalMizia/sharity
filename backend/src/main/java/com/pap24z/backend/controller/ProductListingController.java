@@ -85,12 +85,20 @@ public class ProductListingController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductListingDTO> createProductListing(HttpServletRequest request,
+    public ResponseEntity<?> createProductListing(HttpServletRequest request,
             @Valid @RequestBody ProductListingDTO productListingDTO) {
         User user = (User) request.getSession().getAttribute("user");
 
         if (user == null || !user.getId().equals(productListingDTO.getUser().getId())) {
             return ResponseEntity.status(403).build();
+        }
+
+        if (productListingService.existsByTitleAndUserId(productListingDTO.getTitle(), user.getId())) {
+            return ResponseEntity.status(409).body("A product with the same name already exists.");
+        }
+
+        if (productListingService.existsByUserFilesAndUserId(productListingDTO.getUserFileIds(), user.getId())) {
+            return ResponseEntity.status(409).body("A product with the same files already exists.");
         }
 
         ProductListing productListing = convertToEntity(productListingDTO);
@@ -126,11 +134,12 @@ public class ProductListingController {
                     .map(Optional::get)
                     .collect(Collectors.toList()));
 
-            Optional<UserFile> previewFileOptional = userFileService
-                    .getUserFileById(productListingDTO.getPreviewFileId());
-            if (previewFileOptional.isPresent()) {
-                productListing.setPreviewFile(previewFileOptional.get());
-            }
+            List<UserFile> previewFiles = productListingDTO.getPreviewFileIds().stream()
+                    .map(userFileService::getUserFileById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
+            productListing.setPreviewFiles(previewFiles);
 
             ProductListing updatedProductListing = productListingService.saveProductListing(productListing);
             return ResponseEntity.ok(convertToDTO(updatedProductListing));
@@ -168,7 +177,16 @@ public class ProductListingController {
                 productListing.getUser().getDescription(),
                 "");
 
-        ProductListingDTO return_val = new ProductListingDTO(
+        List<Long> previewFileIds = productListing.getPreviewFiles().stream()
+                .map(UserFile::getId)
+                .collect(Collectors.toList());
+
+        List<String> previewFileUrls = productListing.getPreviewFiles().stream()
+                .map(UserFile::getFilePath)
+                .map(filePath -> "/public/files/" + filePath)
+                .collect(Collectors.toList());
+
+        ProductListingDTO new_listing = new ProductListingDTO(
                 productListing.getId(),
                 productListing.getTitle(),
                 productListing.getDescription(),
@@ -180,19 +198,11 @@ public class ProductListingController {
                 productListing.getUserFiles().stream()
                         .map(UserFile::getId)
                         .collect(Collectors.toList()),
-                productListing.getPreviewFile() != null ? productListing.getPreviewFile().getId() : null);
+                previewFileIds);
 
-        if (productListing.getPreviewFile() != null) {
-            Long previewFileId = productListing.getPreviewFile().getId();
-            Optional<UserFile> previewFileOptional = userFileService.getUserFileById(previewFileId);
-            if (previewFileOptional.isPresent()) {
-                String filename = previewFileOptional.get().getFilePath();
-                String previewFileLink = "/public/files/" + filename;
-                return_val.setPreviewFileUrl(previewFileLink);
-            }
-        }
+        new_listing.setPreviewFileUrls(previewFileUrls);
+        return new_listing;
 
-        return return_val;
     }
 
     private ProductListing convertToEntity(ProductListingDTO productListingDTO) {
@@ -203,8 +213,11 @@ public class ProductListingController {
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
-        Optional<UserFile> previewFileOptional = userFileService.getUserFileById(productListingDTO.getPreviewFileId());
-        UserFile previewFile = previewFileOptional.orElse(null); // Obsłuż brakujący plik podglądu
+        List<UserFile> previewFiles = productListingDTO.getPreviewFileIds().stream()
+                .map(userFileService::getUserFileById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
 
         return new ProductListing(
                 productListingDTO.getTitle(),
@@ -215,7 +228,6 @@ public class ProductListingController {
                 productListingDTO.getPriceChange(),
                 user,
                 userFiles,
-                previewFile);
-
+                previewFiles);
     }
 }

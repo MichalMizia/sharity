@@ -53,12 +53,13 @@ const RegisterPage = ({}: RegisterPageProps) => {
                 Username
               </label>
               <input
-                  id="username"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  {...register("username", {required: true})}
+                autoComplete="username"
+                id="username"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                {...register("username", { required: true })}
               />
               {errors.username && (
-                  <span className="text-red-500 text-sm">
+                <span className="text-red-500 text-sm">
                   This field is required
                 </span>
               )}
@@ -68,47 +69,31 @@ const RegisterPage = ({}: RegisterPageProps) => {
                 Email
               </label>
               <input
-                  id="email"
-                  type="email"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  {...register("email", {required: true})}
+                id="email"
+                type="email"
+                autoComplete="email"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                {...register("email", { required: true })}
               />
               {errors.email && (
-                  <span className="text-red-500 text-sm">
+                <span className="text-red-500 text-sm">
                   This field is required
                 </span>
               )}
             </div>
-            {/*<div className="mb-4">*/}
-            {/*  <label htmlFor="account_number" className="block text-gray-700">*/}
-            {/*    Account number*/}
-            {/*  </label>*/}
-            {/*  <input*/}
-            {/*      id="account_number"*/}
-            {/*      type="account_number"*/}
-            {/*      pattern="(\d{26}|\d{2} (\d{4} ){5}\d{4})"*/}
-            {/*      title="Nr konta bankowego IBAN"*/}
-            {/*      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"*/}
-            {/*      {...register("account_number", {required: true})}*/}
-            {/*  />*/}
-            {/*  {errors.account_number && (*/}
-            {/*      <span className="text-red-500 text-sm">*/}
-            {/*      This field is required*/}
-            {/*    </span>*/}
-            {/*  )}*/}
-            {/*</div>*/}
             <div className="mb-4">
               <label htmlFor="password" className="block text-gray-700">
                 Password
               </label>
               <input
-                  id="password"
-                  type="password"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  {...register("password", {required: true})}
+                id="password"
+                type="password"
+                autoComplete="new-password"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                {...register("password", { required: true })}
               />
               {errors.password && (
-                  <span className="text-red-500 text-sm">
+                <span className="text-red-500 text-sm">
                   This field is required
                 </span>
               )}
@@ -118,20 +103,21 @@ const RegisterPage = ({}: RegisterPageProps) => {
                 Confirm Password
               </label>
               <input
-                  id="confirmPassword"
-                  type="password"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  {...register("confirmPassword", {required: true})}
+                id="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                {...register("confirmPassword", { required: true })}
               />
               {errors.confirmPassword && (
-                  <span className="text-red-500 text-sm">
+                <span className="text-red-500 text-sm">
                   This field is required
                 </span>
               )}
             </div>
             <button
-                type="submit"
-                className="w-full bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition duration-300"
+              type="submit"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition duration-300"
             >
               Register
             </button>

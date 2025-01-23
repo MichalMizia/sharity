@@ -35,7 +35,10 @@ const LatestProductsSection: React.FC<LatestProductsSectionProps> = () => {
                     </span>
                     <div className="flex items-start justify-start flex-wrap">
                       {["quick", "reliable"].map((tag) => (
-                        <span className="text-xs bg-blue-500/15 text-gray-700 rounded-sm border border-black/10 py-[3px] px-1.5 mr-[1ch]">
+                        <span
+                          key={tag}
+                          className="text-xs bg-blue-500/15 text-gray-700 rounded-sm border border-black/10 py-[3px] px-1.5 mr-[1ch]"
+                        >
                           {tag}
                         </span>
                       ))}
@@ -75,7 +78,10 @@ const LatestProductsSection: React.FC<LatestProductsSectionProps> = () => {
                           </span>
                           <div className="flex items-start justify-start flex-wrap">
                             {listing.tags.slice(0, 2).map((tag) => (
-                              <span className="text-xs bg-blue-500/15 text-gray-700 rounded-sm border border-black/10 py-[3px] px-1.5 mr-[1ch]">
+                              <span
+                                key={tag}
+                                className="text-xs bg-blue-500/15 text-gray-700 rounded-sm border border-black/10 py-[3px] px-1.5 mr-[1ch]"
+                              >
                                 {tag}
                               </span>
                             ))}

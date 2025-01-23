@@ -29,7 +29,7 @@ const AddProductListingForm: React.FC = () => {
   } = useForm<IFormInput>();
   const { user } = useAuth();
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>([]);
-  const [previewFileId, setPreviewFileId] = useState<string | "">("");
+  const [previewFileIds, setPreviewFileIds] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("");
 
@@ -51,7 +51,6 @@ const AddProductListingForm: React.FC = () => {
     const priceFull = Math.floor(data.price);
     const priceChange = Math.round((data.price - priceFull) * 100);
 
-    // Tworzymy obiekt bez previewFileId, jeśli nie zostało wybrane
     const productListing: any = {
       ...data,
       priceFull,
@@ -63,13 +62,8 @@ const AddProductListingForm: React.FC = () => {
         id: user?.id || "",
       },
       userFileIds: selectedFileIds.map((id) => parseInt(id)),
-      previewFileId: parseInt(previewFileId),
+      previewFileIds: previewFileIds.map((id) => parseInt(id)),
     };
-
-    // Tylko jeśli wybrano plik podglądu, dodajemy go do obiektu
-    if (previewFileId) {
-      productListing.previewFileId = parseInt(previewFileId);
-    }
 
     mutate(productListing, {
       onSuccess: () => {
@@ -221,34 +215,36 @@ const AddProductListingForm: React.FC = () => {
         </div>
         <div className="mb-2">
           <label
-            htmlFor="previewFile"
+            htmlFor="previewFiles"
             className="mb-1 block text-sm font-medium text-gray-700"
           >
-            Select Preview File (Optional, Only PNG or JPEG)
+            Select Preview Files (Optional, Only PNG or JPEG)
           </label>
-          <Select
-            onValueChange={(e) => setPreviewFileId(e)}
-            disabled={!userFiles?.length}
-          >
-            <SelectTrigger className="w-full min-h-[42px]">
-              <SelectValue placeholder="Select a preview file" />
-            </SelectTrigger>
-            <SelectContent>
-              {userFiles?.length &&
-                userFiles
-                  .filter((file) =>
-                    [".png", ".jpeg", ".jpg"].some((ext) =>
-                      file.fileName.endsWith(ext)
-                    )
-                  )
-                  .map((file) => (
-                    // <SelectItem key={file.id} value={file.id.toString()}>
-                    <SelectItem key={file.id} value={file.id.toString()}>
-                      {file.fileName}
-                    </SelectItem>
-                  ))}
-            </SelectContent>
-          </Select>
+          {error ? (
+            <p className="text-red-500 text-sm">
+              Create some files before adding a product
+            </p>
+          ) : isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <MultiSelect
+              options={
+                userFiles?.length
+                  ? userFiles
+                      .filter((file) =>
+                        [".png", ".jpeg", ".jpg"].some((ext) =>
+                          file.fileName.endsWith(ext)
+                        )
+                      )
+                      .map((file) => ({
+                        label: file.fileName,
+                        value: file.id.toString(),
+                      }))
+                  : []
+              }
+              onValueChange={(e) => setPreviewFileIds(e)}
+            />
+          )}
         </div>
         <button
           type="submit"

@@ -1,6 +1,5 @@
 package com.pap24z.backend.controller;
 
-import com.pap24z.backend.controller.DTO.UserDTO;
 import com.pap24z.backend.model.User;
 import com.pap24z.backend.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,12 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import java.lang.reflect.Field;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Optional;
 
@@ -64,8 +60,8 @@ public class AuthControllerTest {
 
         // Wykonanie zapytania
         mockMvc.perform(post("/auth/login")
-                        .param("email", "testuser@example.com")
-                        .param("password", "wrongpassword"))
+                .param("email", "testuser@example.com")
+                .param("password", "wrongpassword"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().string("Invalid email or password"));
     }
@@ -87,7 +83,7 @@ public class AuthControllerTest {
 
         // Symulowanie sesji w żądaniu
         mockMvc.perform(get("/auth/session")
-                        .sessionAttr("user", user))
+                .sessionAttr("user", user))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("testuser"))
                 .andExpect(jsonPath("$.email").value("testuser@example.com"));
@@ -111,7 +107,7 @@ public class AuthControllerTest {
 
         // Symulowanie sesji w żądaniu
         mockMvc.perform(get("/auth/balance")
-                        .sessionAttr("user", user))
+                .sessionAttr("user", user))
                 .andExpect(status().isOk())
                 .andExpect(content().string("100.0"));
     }

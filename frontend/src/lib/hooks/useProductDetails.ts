@@ -19,8 +19,8 @@ interface ProductDetails {
     id: number;
   };
   userFileIds: number[];
-  previewFileId?: number;
-  previewFileUrl?: string;
+  previewFileIds: number[];
+  previewFileUrl: string[];
   createdAt: string;
 }
 

@@ -1,7 +1,5 @@
 package com.pap24z.backend.controller;
 
-import org.springframework.mock.web.MockHttpSession;
-import com.pap24z.backend.controller.DTO.UserFileDTO;
 import com.pap24z.backend.model.User;
 import com.pap24z.backend.model.UserFile;
 import com.pap24z.backend.service.UserFileService;
@@ -12,15 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Map;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -98,7 +91,6 @@ class UserControllerTest {
         verify(userService, times(1)).getUserById(1L);
     }
 
-
     @Test
     void testGetUserFiles() throws Exception {
         User user = new User("testuser", "test@example.com", "password", "01234567890123456789012345");
@@ -132,8 +124,8 @@ class UserControllerTest {
         when(userService.saveUser(any(User.class))).thenReturn(user);
 
         mockMvc.perform(put("/users/{id}/description", 1L)
-                        .contentType("application/json")
-                        .content("{\"description\":\"New description\"}"))
+                .contentType("application/json")
+                .content("{\"description\":\"New description\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value("New description"));
 

@@ -2,8 +2,6 @@ package com.pap24z.backend.controller;
 
 import com.pap24z.backend.controller.DTO.UserDTO;
 import com.pap24z.backend.model.User;
-import com.pap24z.backend.repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import com.pap24z.backend.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -76,7 +74,8 @@ public class AuthController {
         User user = (User) request.getSession().getAttribute("user");
         System.out.println("Session in session: " + user);
         if (user != null) {
-            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getAccountNumber(), user.getRole(),
+            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getAccountNumber(),
+                    user.getRole(),
                     user.getImageSrc(), user.getDescription(), "");
             return ResponseEntity.ok(userDTO);
         } else {
@@ -99,16 +98,16 @@ public class AuthController {
         User user = (User) request.getSession().getAttribute("user");
 
         if (user != null) {
-            if(user.getAccountNumber() == null){
+            if (user.getAccountNumber() == null) {
                 return ResponseEntity.status(400).body("No account number given");
             }
-        }
-        else return ResponseEntity.status(401).body("No active session");
+        } else
+            return ResponseEntity.status(401).body("No active session");
 
         user.setBalance(0);
         userService.saveUser(user);
         // transfer money to user's account
-        
+
         return ResponseEntity.ok("Balance reset to 0");
     }
 }

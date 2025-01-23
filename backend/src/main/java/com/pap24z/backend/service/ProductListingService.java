@@ -39,4 +39,12 @@ public class ProductListingService {
     public void deleteProductListing(Long id) {
         productListingRepository.deleteById(id);
     }
+
+    public boolean existsByTitleAndUserId(String title, Long userId) {
+        return productListingRepository.existsByTitleAndUserId(title, userId);
+    }
+
+    public boolean existsByUserFilesAndUserId(List<Long> userFileIds, Long userId) {
+        return productListingRepository.existsByUserFilesAndUserId(userFileIds, userId);
+    }
 }

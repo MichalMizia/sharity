@@ -5,6 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import useProductListings from "@/lib/hooks/useProductListings";
 import PicturePlaceholder from "@/components/ui/picture_placeholder";
 import { API_URL } from "@/lib/auth"; // Dodano import API_URL
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface ProductPageProps {}
 
@@ -37,10 +44,6 @@ const ProductPage: React.FC<ProductPageProps> = () => {
     (latestProduct) => latestProduct.id !== Number(id)
   );
 
-  const previewImageURL = productData?.previewFileUrl
-    ? `${API_URL}${productData.previewFileUrl}`
-    : null;
-
   return (
     <div className="max-w-7xl mx-auto p-4 bg-white rounded-lg grid grid-cols-1 lg:grid-cols-3 gap-12">
       <main className="lg:col-span-2 flex flex-col items-stretch">
@@ -69,19 +72,35 @@ const ProductPage: React.FC<ProductPageProps> = () => {
 
           {/* Preview Image Section */}
           <div className="mt-4">
-            {previewImageURL ? (
-              <img
-                src={previewImageURL}
-                alt={productData?.title || "Product Preview"}
-                className="w-full h-auto max-h-96 object-cover rounded-lg"
-                onError={(e) => {
-                  e.currentTarget.src = "/blank_profile_picture.png";
-                  e.currentTarget.alt = "Image not available";
-                }}
-              />
-            ) : (
-              <p>No preview image available</p>
-            )}
+            <Carousel className="max-w-fit-content px-16 mx-auto">
+              <CarouselContent>
+                {(productData?.previewFileUrls?.length || 0) > 0 ? (
+                  productData?.previewFileUrls.map((imageUrl, index) => (
+                    <CarouselItem key={index}>
+                      <img
+                        src={`${API_URL}${imageUrl}`}
+                        alt={productData?.title || "Product Preview"}
+                        className="w-full h-auto max-h-96 object-cover rounded-lg"
+                        onError={(e) => {
+                          e.currentTarget.src = "/blank_profile_picture.png";
+                          e.currentTarget.alt = "Image not available";
+                        }}
+                      />
+                    </CarouselItem>
+                  ))
+                ) : (
+                  <CarouselItem>
+                    <img
+                      src="/blank_profile_picture.png"
+                      alt="No preview image available"
+                      className="w-full h-auto max-h-96 object-cover rounded-lg"
+                    />
+                  </CarouselItem>
+                )}
+              </CarouselContent>
+              <CarouselPrevious variant={"outlined"} />
+              <CarouselNext variant={"outlined"} />
+            </Carousel>
           </div>
 
           <a
