@@ -68,7 +68,7 @@ public class PasswordResetController {
 
     private void sendPasswordResetEmail(String email, String token) {
         String subject = "Password Reset Request";
-        String resetUrl = "http://localhost:5173/auth/change-password?token=" + token;
+        String resetUrl = "http://localhost:5173/change-password?token=" + token;
         String message = "To reset your password, click the link below:\n" + resetUrl;
 
         SimpleMailMessage emailMessage = new SimpleMailMessage();

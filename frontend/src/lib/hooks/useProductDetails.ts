@@ -20,7 +20,7 @@ interface ProductDetails {
   };
   userFileIds: number[];
   previewFileIds: number[];
-  previewFileUrl: string[];
+  previewFileUrls: string[];
   createdAt: string;
 }
 
