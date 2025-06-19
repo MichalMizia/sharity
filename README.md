@@ -10,4 +10,4 @@
 
 ## To run
 
-Both frontend and backend have README.md with details how to run the whole app, if you want to run the password reset functionality you will also need to add email and app password to application.properties in the /backend folder
+Both frontend and backend have DEVELOPMENT.md with details how to run the whole app, if you want to run the password reset functionality you will also need to add email and app password to application.properties in the /backend folder
